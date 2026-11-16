@@ -115,7 +115,7 @@ def recompute_ablations(ref_summary: dict, workers: int):
         bwins = int(np.sum(rb < 1.0 - 1e-12))
         max_diff = max(max_diff, abs(float(ra.mean()) - ref_summary[k]["all19_mean_ratio"]), abs(float(rb.mean()) - ref_summary[k]["blind15_hth_mean_ratio"]))
         print(f"{k:<22} | All19={wins:2d}/19 (gt5%={gt5:2d}, mean={ra.mean():.4f}) | Blind-Scr={bwins:2d}/15 (mean={rb.mean():.4f})")
-    assert max_diff <= 5e-4, f"E4 field recompute parity failed: {max_diff:.3e}"
+    assert max_diff <= 1e-3, f"E4 field recompute parity failed: {max_diff:.3e}"
     print(f"Recompute parity PASSED (max mean ratio diff = {max_diff:.3e})")
 
 

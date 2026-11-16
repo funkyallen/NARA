@@ -212,35 +212,35 @@
     "SEN_DELTA_inf": {
       "all19_wins": 10,
       "all19_gt5": 6,
-      "all19_mean_ratio": 1.0053,
+      "all19_mean_ratio": 1.0049,
       "blind15_wins": 8,
       "blind15_mean_ratio": 0.9975,
       "blind15_hth_wins": 10,
       "blind15_hth_mean_ratio": 0.9794,
-      "primary216_mae": 0.1964,
-      "box54_mae": 0.162
+      "primary216_mae": 0.1962,
+      "box54_mae": 0.1644
     },
     "ABL_RA-SNR-L2": {
       "all19_wins": 10,
       "all19_gt5": 6,
-      "all19_mean_ratio": 1.0053,
+      "all19_mean_ratio": 1.0049,
       "blind15_wins": 8,
       "blind15_mean_ratio": 0.9975,
       "blind15_hth_wins": 10,
       "blind15_hth_mean_ratio": 0.9794,
-      "primary216_mae": 0.1964,
-      "box54_mae": 0.162
+      "primary216_mae": 0.1962,
+      "box54_mae": 0.1644
     },
     "ABL_Base-RA": {
       "all19_wins": 4,
       "all19_gt5": 11,
-      "all19_mean_ratio": 1.0881,
+      "all19_mean_ratio": 1.0872,
       "blind15_wins": 4,
       "blind15_mean_ratio": 1.0616,
       "blind15_hth_wins": 4,
-      "blind15_hth_mean_ratio": 1.0803,
-      "primary216_mae": 0.2022,
-      "box54_mae": 0.1598
+      "blind15_hth_mean_ratio": 1.0794,
+      "primary216_mae": 0.1999,
+      "box54_mae": 0.1572
     },
     "SEN_DISC_10_0.25": {
       "all19_wins": 9,

@@ -19,5 +19,8 @@ dependencies = [
 [project.optional-dependencies]
 dlis = ["dlisio>=1.0"]
 
+[project.scripts]
+nara-align = "nara.cli:main"
+
 [tool.setuptools.packages.find]
 include = ["nara*"]

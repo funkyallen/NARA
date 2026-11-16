@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import numpy as np
-from .graph import MODELS, Graph, correlation
+from .graph import MODELS, Graph, correlation, scale_pair
 
 
 def huber_loss(res: np.ndarray, delta: float = 1.0) -> np.ndarray:
-    """Pointwise Huber loss (or squared error when delta is infinite)."""
+    """Pointwise Huber loss (or 0.5 * squared error matching quadratic core when delta is infinite)."""
     if not np.isfinite(delta):
-        return res * res
+        return 0.5 * res * res
     ar = np.abs(res)
     # Linear tail above 1 MAD unit keeps washouts and spikes from dragging the warp
     return np.where(ar <= delta, 0.5 * res * res, delta * (ar - 0.5 * delta))
@@ -187,6 +187,83 @@ def align_nara(
         "graph": g,
         "templates": templates,
         "base_costs": base_costs,
+    }
+
+
+def align_raw_curves(
+    ref_depth: np.ndarray,
+    ref_gr: np.ndarray,
+    tar_depth: np.ndarray,
+    tar_gr: np.ndarray,
+    *,
+    band_m: float = 3.048,
+    step_m: float | None = None,
+    use_gate: bool = True,
+    profile: bool = True,
+) -> dict:
+    """Register two raw gamma-ray passes in native depth and gAPI units.
+
+    Resamples onto a regular overlapping depth grid, constructs 40-sample reference
+    halos and 30-sample target margins, applies `scale_pair` MAD normalisation,
+    runs two-pass Huber DP with optional two-way reciprocity check, and returns
+    aligned target depths, shift offsets in metres, and Q_k(v) conditioning width.
+    """
+    rd, rv = np.asarray(ref_depth, dtype=float), np.asarray(ref_gr, dtype=float)
+    td, tv = np.asarray(tar_depth, dtype=float), np.asarray(tar_gr, dtype=float)
+    rmask, tmask = good(rd) & good(rv), good(td) & good(tv)
+    rd, rv, td, tv = rd[rmask], rv[rmask], td[tmask], tv[tmask]
+    if step_m is None:
+        step_m = float(np.median(np.diff(rd)))
+    band_samples = max(4.0, round(band_m / step_m))
+    lo = max(float(rd[0]), float(td[0])) + 40.0 * step_m
+    hi = min(float(rd[-1]), float(td[-1])) - 40.0 * step_m
+    if hi <= lo + 20.0 * step_m:
+        raise ValueError("overlapping depth interval is too short for 40-sample halos")
+
+    z_core = np.arange(lo, hi + 0.25 * step_m, step_m)
+    n = len(z_core)
+    z_xf = lo + np.arange(-40, n + 40, dtype=float) * step_m
+    z_y = lo + np.arange(-30, n + 30, dtype=float) * step_m
+    xf_raw = np.interp(z_xf, rd, rv)
+    y_raw = np.interp(z_y, td, tv)
+    xf, y, scale_info = scale_pair(xf_raw, y_raw, margin=40)
+
+    rev_xf, rev_y = None, None
+    if use_gate:
+        rev_xf_raw = np.interp(z_xf, td, tv)
+        rev_y_raw = np.interp(z_y, rd, rv)
+        rev_xf, rev_y, _ = scale_pair(rev_xf_raw, rev_y_raw, margin=40)
+
+    res = align_nara(xf, y, band=band_samples, rev_xf=rev_xf, rev_y=rev_y, use_gate=use_gate, profile=profile)
+    shift_m = (res["mapped"] - np.arange(n, dtype=float)) * step_m
+    aligned_tar_gr = np.interp(z_core + shift_m, td, tv)
+
+    width_m = None
+    norm_width_m = None
+    if profile:
+        g = res["graph"]
+        q = res["solution"]["q"]
+        dq = q[g.K // 2].min(axis=0) - res["solution"]["value"]
+        sub = g.grid[dq <= 0.005] * step_m
+        width_m = float(sub[-1] - sub[0]) if len(sub) else 0.0
+        sub_norm = g.grid[dq <= 0.005 * res["lam_eff"]] * step_m
+        norm_width_m = float(sub_norm[-1] - sub_norm[0]) if len(sub_norm) else 0.0
+
+    return {
+        "depth_m": z_core,
+        "ref_gr": xf_raw[40 : 40 + n],
+        "aligned_tar_depth_m": z_core + shift_m,
+        "aligned_tar_gr": aligned_tar_gr,
+        "shift_m": shift_m,
+        "step_m": step_m,
+        "lam_eff": res["lam_eff"],
+        "j_data_pilot": res["j_data_pilot"],
+        "model": res["model"],
+        "rev_model": res["rev_model"],
+        "gate_triggered": res["gate_triggered"],
+        "mid_width_005_m": width_m,
+        "mid_width_norm_m": norm_width_m,
+        "scale_info": scale_info,
     }
 
 

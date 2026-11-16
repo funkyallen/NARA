@@ -103,16 +103,19 @@ def main():
     print(f"Evaluated {len(manifest)} wells ({len(all_ep)} endpoints) in {time.perf_counter() - t0:.1f} s\n")
 
     sub_b = [e for e in all_ep if e["cohort"] == "B_eval"]
-    for m in ("DTW", "RCORR", "Base-0", "Base-RA", "NARA"):
+    for m in ("IDENTITY", "DTW", "RCORR", "Base-0", "Base-RA", "NARA"):
         r_all = np.array([e["scores"][m]["all"]["rmse"] / e["scores"]["XCORR"]["all"]["rmse"] for e in all_ep])
+        r_as = np.array([e["scores"][m]["healthy"]["rmse"] / e["scores"]["XCORR"]["healthy"]["rmse"] for e in all_ep])
         r_bf = np.array([e["scores"][m]["all"]["rmse"] / e["scores"]["XCORR"]["all"]["rmse"] for e in sub_b])
         r_bh = np.array([e["scores"][m]["healthy"]["rmse"] / e["scores"]["XCORR"]["healthy"]["rmse"] for e in sub_b])
         we_all = _well_equal_mean(all_ep, m, "all")
+        we_bf = _well_equal_mean(sub_b, m, "all")
         we_bh = _well_equal_mean(sub_b, m, "healthy")
         print(
-            f"{m:<8} | All19: {int(np.sum(r_all < 1 - 1e-12)):2d}/19 (>5%: {int(np.sum(r_all > 1.05)):2d}, ep={r_all.mean():.4f}, well={we_all:.4f}) | "
-            f"Blind-Full: {int(np.sum(r_bf < 1 - 1e-12)):2d}/15 (ep={r_bf.mean():.4f}) | "
-            f"Blind-Screened: {int(np.sum(r_bh < 1 - 1e-12)):2d}/15 (ep={r_bh.mean():.4f}, well={we_bh:.4f})"
+            f"{m:<8} | All19-Full: {int(np.sum(r_all < 1 - 1e-12)):2d}/19 (>5%: {int(np.sum(r_all > 1.05)):2d}, ep={r_all.mean():.4f}, well={we_all:.4f}) | "
+            f"All19-Scr ep={r_as.mean():.4f} | "
+            f"Blind-Full: {int(np.sum(r_bf < 1 - 1e-12)):2d}/15 (ep={r_bf.mean():.4f}, well={we_bf:.4f}) | "
+            f"Blind-Scr: {int(np.sum(r_bh < 1 - 1e-12)):2d}/15 (ep={r_bh.mean():.4f}, well={we_bh:.4f})"
         )
 
     sub_no_aplc = [e for e in all_ep if e["well"] != "U1513E"]

@@ -1,8 +1,9 @@
 """NARA: Noise-Adaptive Response Alignment for repeat-pass wireline logs."""
 
-from .graph import MODELS, Graph, correlation, regularized_correlation, slope_dtw
+from .graph import MODELS, Graph, correlation, regularized_correlation, scale_pair, slope_dtw
 from .solver import (
     align_nara,
+    align_raw_curves,
     alternating_huber_dp,
     compute_base_costs,
     dp_with_precomputed,
@@ -18,6 +19,7 @@ __all__ = [
     "MODELS",
     "Graph",
     "align_nara",
+    "align_raw_curves",
     "alternating_huber_dp",
     "compute_base_costs",
     "correlation",
@@ -26,6 +28,7 @@ __all__ = [
     "is_same_side_bound_sat",
     "pilot_data_residual",
     "regularized_correlation",
+    "scale_pair",
     "slope_dtw",
     "solve_core",
 ]

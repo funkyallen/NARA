@@ -1,26 +1,26 @@
 # NARA: Noise-Adaptive Response Alignment for Repeat-Pass Wireline Logs
 
-Reference implementation, benchmark datasets, and evaluation scripts for **Noise-adaptive response alignment for repeat-pass wireline logs** (Jianwen Rui, Nanjing Vocational College of Information Technology).
+Reference implementation, raw-curve alignment CLI, benchmark datasets, and verification scripts for **Noise-adaptive response alignment for repeat-pass wireline logs** (Jianwen Rui, Nanjing Vocational College of Information Technology).
 
-`NARA` aligns repeat-pass gamma-ray (GR) borehole logs by combining four mechanisms in a slope-bounded dynamic programming solver:
+`NARA` aligns repeat-pass gamma-ray (GR) borehole logs by combining four mechanisms inside an exact slope-bounded forward-backward dynamic programming solver:
 
-- **45-member response bank**: discrete Gaussian smoothing (`sigma in {0, 1, 2, 3, 4}` samples), multiplicative gain (`a in {0.8, 1.0, 1.2}`), and baseline offset (`b in {-0.2, 0.0, 0.2}`).
-- **Huber edge penalty** (`delta = 1.0`): bounds outlier pull from washout zones, rugosity spikes, and casing transitions.
-- **Two-pass residual-adaptive stiffness** (`lam_eff = 0.05 + 15 * J_data`): uses the Pass-1 Huber residual `J_data` to keep clean benchmarks flexible (`lam_eff ~ 0.14`) while stabilizing noisy borehole runs (`lam_eff = 0.53..9.51`).
-- **Two-way reciprocity heuristic check**: reverts to bulk cross-correlation (`XCORR`) when forward and reversed passes both saturate on the same gain boundary (`0.8` or `1.2`).
+- **45-member discrete response bank**: centred Gaussian broadening (`sigma in {0, 1, 2, 3, 4}` samples), multiplicative gain (`a in {0.8, 1.0, 1.2}`), and baseline offset (`b in {-0.2, 0.0, 0.2}`).
+- **Huber edge penalty** (`delta = 1.0`): caps outlier leverage from borehole washouts, rugosity spikes, and casing transitions while matching quadratic `0.5 * e^2` behaviour inside `|e| <= 1`.
+- **Two-pass residual-adaptive stiffness** (`lam_eff = 0.05 + 15 * J_data`): scales path stiffness linearly with the Pass-1 Huber residual `J_data`, keeping clean broadened traces flexible (`lam_eff ~ 0.14`) while stabilising noisy field logs (`lam_eff = 0.53..9.51`).
+- **Two-way reciprocity safeguard**: runs the reversed direction (`y -> x`) when paired directional passes exist and reverts to bulk cross-correlation (`XCORR`) when both passes lock onto the same gain bound (`a_fwd = a_rev in {0.8, 1.2}`).
 
-Exact forward-backward dynamic programming yields both the optimal depth map and deterministic excess-cost profiles `Q_k(v)`.
+Exact forward-backward DP simultaneously outputs deterministic whole-interval excess-cost profiles `Q_k(v)` and witness trajectories without random restarts.
 
 ## Contents
 
 | Path | Description |
 |---|---|
-| `nara/` | Core solver package (`graph.py`, `solver.py`, `__init__.py`) |
-| `data/synthetic_1032/` | Pre-built synthetic benchmark cases and index (`manifest.json`, 1,032 cases) |
-| `data/field_iodp_13wells/` | Extracted GR passes, held-out channels, and screened masks for 13 IODP holes (19 endpoints) |
-| `data/iodp_dlis_manifest.json` | Upstream LDEO IODP-USIO filenames, portal link, and SHA-256 checksums |
-| `scripts/` | CLI scripts reproducing quickstart, field, synthetic, conditional-QA, ablation, and figure outputs |
-| `results/` | Saved JSON outputs and plotted curve arrays matching the manuscript tables |
+| `nara/` | Core package (`graph.py`, `solver.py`, `cli.py`, `__init__.py`) including `align_raw_curves` and `scale_pair` |
+| `data/synthetic_1032/` | Pre-built synthetic benchmark cases (`manifest.json`, 1,032 cases) |
+| `data/field_iodp_13wells/` | Extracted GR passes, held-out channels, and screened masks for 13 IODP boreholes (19 endpoints) |
+| `data/iodp_dlis_manifest.json` | Upstream LDEO IODP-USIO DLIS filenames, portal links, and SHA-256 digests |
+| `scripts/` | Verification scripts (`run_e1..e4`) and figure builder (`make_figures.py`) |
+| `results/` | Saved JSON archives (`reference_*.json`) and plotting arrays (`fig_cache.npz`) |
 | `figures/` | Exported vector figures (`PDF` and `SVG`) plus PNG previews |
 
 ## Installation
@@ -32,25 +32,39 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-## Basic Usage
+## Using NARA on Your Own Repeat-Pass Logs
+
+### Option A: Raw CSV Command-Line Interface (`nara-align`)
+
+Pass any two depth-indexed gamma-ray CSV files (`depth_m, gr`) in native metre and `gAPI` units. The CLI resamples onto the common grid, adds the required 40-sample reference halos and 30-sample target margins, applies shared-reference `scale_pair` MAD normalisation, executes NARA with reciprocity checking, and exports aligned depths plus `Q_k(v)` diagnostics:
+
+```bash
+nara-align --ref pass1.csv --tar pass2.csv --out pass2_aligned.csv --band-m 3.048
+```
+
+### Option B: Python API (`align_raw_curves` vs Core `align_nara`)
+
+For raw curves in physical units, call `align_raw_curves` directly:
+
+```python
+from nara import align_raw_curves
+
+res = align_raw_curves(ref_depth_m, ref_gr, tar_depth_m, tar_gr, band_m=3.048, use_gate=True, profile=True)
+print(res["lam_eff"], res["model"], res["gate_triggered"], res["mid_width_005_m"])
+```
+
+If calling the low-level array solver `align_nara(x_full, y, ...)` directly, `x_full` (`len = n + 80`, including 40-sample edge halos on each side) and `y` (`len = n + 60`, including 30-sample search margins) **must** first be normalised jointly using `scale_pair(x_full, y, margin=40)` (`1.4826 * MAD` of the reference core). Pre-extracted arrays inside `data/field_iodp_13wells/` already satisfy this contract:
 
 ```python
 import numpy as np
 from nara import align_nara
 
-data = np.load("data/field_iodp_13wells/U1611A.npz")
-res = align_nara(
-    data["x_full"],
-    data["y"],
-    band=20.0,
-    rev_xf=data["rev_x_full"],
-    rev_y=data["rev_y"],
-    profile=True,
-)
+d = np.load("data/field_iodp_13wells/U1611A.npz")
+res = align_nara(d["x_full"], d["y"], band=20.0, rev_xf=d["rev_x_full"], rev_y=d["rev_y"], profile=True)
 print(res["lam_eff"], res["model"], res["gate_triggered"])
 ```
 
-Run the bundled two-well demo (`U1611A` and `U1437D`):
+Run the bundled two-well demonstration (`U1611A` and `U1437D`):
 
 ```bash
 python scripts/quickstart_example.py
@@ -66,17 +80,22 @@ python scripts/run_e4_ablation_sensitivity.py --recompute-ablations
 python scripts/make_figures.py
 ```
 
-Note on execution modes:
-- `run_e1_field_13wells.py --verify` recomputes all 7 comparators across all 13 IODP wells from `data/field_iodp_13wells/` and asserts endpoint RMSE parity against `results/reference_e1_field_13wells.json`.
-- `run_e2_synthetic_1032.py --with-ablations --verify` recomputes all 1,032 synthetic cases from `data/synthetic_1032/`, reports the `Primary Dev (wells 01-06)` vs `Held-out (wells 07-09)` split, `n=216` zero-blur `sigma=0` selection rate, and 9-well bootstrap CI.
-- `run_e3_conditional_qa.py --with-synthetic --verify` evaluates exact `Q_k(v)` excess-cost parity and non-oracle deterministic 8-start `ALT8` comparison across the 6 field logs and 90 synthetic cases.
-- `run_e4_ablation_sensitivity.py` prints the saved Table 6 and Table 7 summary by default; pass `--recompute-ablations` to recompute all Table 6 field variants live from `data/field_iodp_13wells/`.
-- `make_figures.py` regenerates Figures 1-7 directly from the `results/` archives.
+Execution scope matrix:
+
+| Script | What Is Computed Live from `data/` | What Uses `results/` Archives |
+|---|---|---|
+| `run_e1_field_13wells.py --verify` | Full 13-well / 19-endpoint run across 8 comparators + well-equal means + `U1513E`-excluded check | Asserts `<= 1e-6` RMSE parity against `reference_e1_field_13wells.json` |
+| `run_e2_synthetic_1032.py --with-ablations --verify` | All 1,032 synthetic cases (`Primary Dev 01-06` vs `Held-out 07-09`, `sigma=0` over `n=216`, optional `Base-RA` & `w/o Broadening` bootstrap) | Asserts `<= 1e-6` well-equal MAE parity against `reference_e2_synthetic_1032.json` |
+| `run_e3_conditional_qa.py --with-synthetic --verify` | Full `Q_k(v)` witness-path parity and deterministic non-oracle 8-start `ALT8` across 6 field holes and 90 synthetic tests | Uses synthetic case IDs and field assertion targets in `reference_e3_conditional_qa.json` |
+| `run_e4_ablation_sensitivity.py --recompute-ablations` | Table 6 field variants (`ABL_Base-RA`, `Fix0.05`, `Fix2.00`, true `0.5*e^2` `w/o Huber`, `w/o Broadening`, `w/o Gate`, `NARA`) | Default mode prints saved Table 6 and Table 7 (`SEN_*`) from `reference_e4_ablation_sensitivity.json` |
+| `make_figures.py` | Renders all vector PDF/SVG/PNG plots (`Figures 1-7`) | Reads curve caches and metrics from `results/` |
+
+Note on `nara.solver.huber_loss(..., delta=float("inf"))`: when `delta` is non-finite, `huber_loss` returns `0.5 * res * res` so quadratic ablations (`w/o Huber`) share the exact quadratic-core scaling of Huber loss (`0.5 * e^2` for `|e| <= delta`). Note also that `kappa = 15` and `Delta Q <= 0.005` thresholds calibrate to the common `0.1524 m` sample spacing and `h = 20` knot step.
 
 ## Data Notes
 
-- Synthetic cases (`data/synthetic_1032/`) originate from 9 public SPWLA wells (`0.1524 m` sampling; Third SPWLA Machine Learning Competition, 2023) plus 3 U1580A borehole windows.
-- Field logs originate from the LDEO IODP-USIO wireline archive (<https://mlp.ldeo.columbia.edu/data/iodp-usio/>). Raw DLIS files reach up to 401 MB per file and are omitted here; pre-extracted depth-paired arrays and quality masks for all 13 holes live in `data/field_iodp_13wells/`, with original filenames and SHA-256 digests recorded in `data/iodp_dlis_manifest.json`. Note that `RLA5` resistivity endpoints are evaluated in linear `ohm.m` units, and `U1513E` `APLC` reaches peak porosity values up to `7.446 m3/m3` in breakout/hole-condition zones (see `run_e1_field_13wells.py` for the `U1513E`-excluded sensitivity check).
+- Synthetic cases (`data/synthetic_1032/`) originate from 9 public SPWLA wells (`0.1524 m` sampling; Third SPWLA Machine Learning Competition, 2023) plus 3 `U1580A` borehole windows.
+- Field logs originate from the LDEO IODP-USIO wireline archive (<https://mlp.ldeo.columbia.edu/data/iodp-usio/>). Original DLIS files reach up to `401 MB` per file and are omitted here; pre-extracted depth-paired arrays and screened quality masks for all 13 boreholes reside in `data/field_iodp_13wells/`, with source filenames and SHA-256 digests in `data/iodp_dlis_manifest.json`. Note that `RLA5` is scored primarily in linear `ohm.m` (with `log10(RLA5)` sensitivity reported in the manuscript), and `U1513E` `APLC` spans `0.2241..7.4460 m3/m3` under poor hole conditions.
 
 ## License
 
