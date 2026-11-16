@@ -1,0 +1,197 @@
+[
+  {
+    "cohort": "A_dev",
+    "well": "U1580A",
+    "files": [
+      {
+        "name": "392-U1580A_MSS_LDEO_HRLA_LDL_APS_022LUP.DLIS",
+        "sha256": "dc8c09168123e1dd58a5f8ab948f7e794cabe42f2e8f389c5bc243a6e6293280"
+      },
+      {
+        "name": "392-U1580A_MSS_LDEO_HRLA_LDL_APS_021LUP.DLIS",
+        "sha256": "928a93a203527e168d35f9cd9b2de504cab2317f198bda4812c00e34a626b163"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "A_dev",
+    "well": "U1473A",
+    "files": [
+      {
+        "name": "360-U1473A_FMS_DSI_NGS_053LUP.DLIS",
+        "sha256": "cdac63e8796b72ed81dcf443b127f26ee5f38ec08242c5a59cf1cab5f8a6cc26"
+      },
+      {
+        "name": "360-U1473A_FMS_DSI_NGS_051LUP.DLIS",
+        "sha256": "70e6971e8df49762734e0c3b37392e67c20519b43be11668e686418434eb4c0a"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "A_dev",
+    "well": "U1564F",
+    "files": [
+      {
+        "name": "395-U1564F_MSS_HRLA_HLDS_APS_NGS_EDTC_027PUP.DLIS",
+        "sha256": "4f1d4f29f7b948ef6a153c3d1891ff949fd1fd8e02059a01ad45172b4fcf0860"
+      },
+      {
+        "name": "395-U1564F_MSS_HRLA_HLDS_APS_NGS_EDTC_026PUP.DLIS",
+        "sha256": "93be8016d75bcae2f87b37d1ac1ac3ad642795094db5ab71eb99f3648bfee63d"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "A_dev",
+    "well": "U1395B",
+    "files": [
+      {
+        "name": "340-U1395B_MSS_LDEO_HRLA_LDL_036PUP.DLIS",
+        "sha256": "216b8b43cebfad84581d2ce52e5667db31bdd1cccf509baacd8435590f8ba7b9"
+      },
+      {
+        "name": "340-U1395B_MSS_LDEO_HRLA_LDL_011LDP.DLIS",
+        "sha256": "365ec6fe0a90e700db817a49e7f01fecaffb7ec5b3b1dac83d5a33f0bbea1b03"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1437D",
+    "files": [
+      {
+        "name": "350-U1437D_MSS_LDEO_HRLA_LDL_017LUP.DLIS",
+        "sha256": "5765040aaf5b2984f94a5fc4f8082fc6b27dbaea19dd8e8c679827e7fe5d966d"
+      },
+      {
+        "name": "350-U1437D_MSS_LDEO_HRLA_LDL_019LUP.DLIS",
+        "sha256": "723917a6a96392c97a1aca65273c9ab214af48b82f3db9a7337441895fa0d406"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1467E",
+    "files": [
+      {
+        "name": "359-U1467E_MSS_LDEO_HRLA_LDL_007LUP.DLIS",
+        "sha256": "8992518eaf3526c03f0c13e5b74c958814fd394919536184379a9793e817ff4f"
+      },
+      {
+        "name": "359-U1467E_MSS_LDEO_HRLA_LDL_009LUP.DLIS",
+        "sha256": "bfcd10988f460777ef66d922011e668dc6a98f9d501fcaaa80e1c97776784737"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1545A",
+    "files": [
+      {
+        "name": "385-U1545A_FMS_DSI_043PUP.DLIS",
+        "sha256": "877a589c2e1a23a9f0e19b938bc95fa99e50dde8836684077a6ef4a9f9d7964c"
+      },
+      {
+        "name": "385-U1545A_FMS_DSI_044PUP.DLIS",
+        "sha256": "a7fbe2b7a19641abbea1cb4e70136d4a92aca56fdbb75f41e64a0be9943cacc2"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1623D",
+    "files": [
+      {
+        "name": "403-U1623D_MSS_LDEO_HRLA_LDL_009LUP.DLIS",
+        "sha256": "a9135b7dba9bf4794c39625faa7693243e19c21857990e1c9811cc133b06df4e"
+      },
+      {
+        "name": "403-U1623D_MSS_LDEO_HRLA_LDL_010LUP.DLIS",
+        "sha256": "a028ab58342476f4fe9025b398a865f0a75655612e5f9ed244e2083b22ddc5c5"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1445A",
+    "files": [
+      {
+        "name": "353-U1445A_MSS_LDEO_HRLA_LDL_046PUP.DLIS",
+        "sha256": "8dfc3962cdd97fb70f5321a2509aecc50972c5a531d8e3af7d6443d8a91d1bc0"
+      },
+      {
+        "name": "353-U1445A_MSS_LDEO_HRLA_LDL_047PUP.DLIS",
+        "sha256": "f3c735b9564f12724fcd172dbff43ab6bc18ee5dae9a60221010506c91c3ac4f"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1468B",
+    "files": [
+      {
+        "name": "359-U1468B_MSS_LDEO_HRLA_LDL_012LUP.DLIS",
+        "sha256": "1ebaee0674c3a5526f7bea08f4a64168c3830dc927178315becf0685b8e06899"
+      },
+      {
+        "name": "359-U1468B_MSS_LDEO_HRLA_LDL_013LUP.DLIS",
+        "sha256": "246b05745fbbbfb9c0e5451377b3155cfc8a7fffa257ad42253a1c4df0340586"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1471E",
+    "files": [
+      {
+        "name": "359-U1471E_MSS_LDEO_HRLA_LDL_008LUP.DLIS",
+        "sha256": "b4857989e82b553c2ac328034ad59e38646980f02b5c1140f3f7c7158f0c4663"
+      },
+      {
+        "name": "359-U1471E_MSS_LDEO_HRLA_LDL_009LUP.DLIS",
+        "sha256": "2297a39ea5ec83f2379089794aa933f2650973b4a7c2fb8dffc6265e179d40b3"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1611A",
+    "files": [
+      {
+        "name": "401-U1611A_MSS_HRLA_HLDS_012LDP.DLIS",
+        "sha256": "b45194f56fe221666e4e7d364c2aba9609f9af8eeda577dfe5c5bd98ed8c050e"
+      },
+      {
+        "name": "401-U1611A_MSS_HRLA_HLDS_013LUP.DLIS",
+        "sha256": "06c59625d0fd743821bf170351d986518c8f39a13d2d16fd346bd080e65f2c3f"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1513E",
+    "files": [
+      {
+        "name": "369-U1513E_FMS_APS_NGS_037LUP.DLIS",
+        "sha256": "561fad4f37c82c0fee114e4ed635d5a35e3f999253a9d376c0ad03235aa843da"
+      },
+      {
+        "name": "369-U1513E_FMS_APS_NGS_038LUP.DLIS",
+        "sha256": "b546f18fd1bb665788a07ba1e849f3086eb2b96e7d6479512f9ca8bb176de6af"
+      }
+    ],
+    "portal": "https://mlp.ldeo.columbia.edu/data/iodp-usio/"
+  }
+]

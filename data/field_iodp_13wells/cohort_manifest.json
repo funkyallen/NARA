@@ -1,0 +1,258 @@
+[
+  {
+    "cohort": "A_dev",
+    "well": "U1580A",
+    "npz": "U1580A.npz",
+    "origin_m": 360.7188000000001,
+    "channels": [
+      {
+        "case_id": "U1580A",
+        "channel": "RHOM",
+        "unit": "g/cm3",
+        "step_m": 0.1524,
+        "pos_only": false,
+        "healthy_rule": "lcal_gt_6"
+      }
+    ]
+  },
+  {
+    "cohort": "A_dev",
+    "well": "U1473A",
+    "npz": "U1473A.npz",
+    "origin_m": 94.94960000000003,
+    "channels": [
+      {
+        "case_id": "U1473A",
+        "channel": "DTCO",
+        "unit": "us/ft",
+        "step_m": 0.1524,
+        "pos_only": false,
+        "healthy_rule": "chrp_gt_0"
+      }
+    ]
+  },
+  {
+    "cohort": "A_dev",
+    "well": "U1564F",
+    "npz": "U1564F.npz",
+    "origin_m": 1062.8912,
+    "channels": [
+      {
+        "case_id": "U1564F_primary",
+        "channel": "RLA5",
+        "unit": "ohm.m",
+        "step_m": 0.0508,
+        "pos_only": true,
+        "healthy_rule": "const_gr_and_ref"
+      }
+    ]
+  },
+  {
+    "cohort": "A_dev",
+    "well": "U1395B",
+    "npz": "U1395B.npz",
+    "origin_m": 87.16200000000003,
+    "channels": [
+      {
+        "case_id": "U1395B_primary",
+        "channel": "RLA5",
+        "unit": "ohm.m",
+        "step_m": 0.0508,
+        "pos_only": true,
+        "healthy_rule": "const_gr_and_ref"
+      }
+    ]
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1437D",
+    "npz": "U1437D.npz",
+    "origin_m": 2907.1824,
+    "channels": [
+      {
+        "case_id": "U1437D_RLA5",
+        "channel": "RLA5",
+        "unit": "ohm.m",
+        "step_m": 0.05079999999998108,
+        "pos_only": true,
+        "healthy_rule": "const_gr_and_ref"
+      },
+      {
+        "case_id": "U1437D_RHOM",
+        "channel": "RHOM",
+        "unit": "g/cm3",
+        "step_m": 0.15239999999994325,
+        "pos_only": false,
+        "healthy_rule": "const_gr_and_ref"
+      }
+    ]
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1467E",
+    "npz": "U1467E.npz",
+    "origin_m": 1090.422,
+    "channels": [
+      {
+        "case_id": "U1467E_RLA5",
+        "channel": "RLA5",
+        "unit": "ohm.m",
+        "step_m": 0.05079999999998108,
+        "pos_only": true,
+        "healthy_rule": "const_gr_and_ref"
+      },
+      {
+        "case_id": "U1467E_RHOM",
+        "channel": "RHOM",
+        "unit": "g/cm3",
+        "step_m": 0.15239999999994325,
+        "pos_only": false,
+        "healthy_rule": "const_gr_and_ref"
+      }
+    ]
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1545A",
+    "npz": "U1545A.npz",
+    "origin_m": 1721.6628,
+    "channels": [
+      {
+        "case_id": "U1545A_DTCO",
+        "channel": "DTCO",
+        "unit": "us/ft",
+        "step_m": 0.15239999999994325,
+        "pos_only": false,
+        "healthy_rule": "const_gr_and_ref"
+      }
+    ]
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1623D",
+    "npz": "U1623D.npz",
+    "origin_m": 1866.1380000000001,
+    "channels": [
+      {
+        "case_id": "U1623D_RLA5",
+        "channel": "RLA5",
+        "unit": "ohm.m",
+        "step_m": 0.05079999999998108,
+        "pos_only": true,
+        "healthy_rule": "const_gr_and_ref"
+      },
+      {
+        "case_id": "U1623D_RHOM",
+        "channel": "RHOM",
+        "unit": "g/cm3",
+        "step_m": 0.15239999999994325,
+        "pos_only": false,
+        "healthy_rule": "const_gr_and_ref"
+      }
+    ]
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1445A",
+    "npz": "U1445A.npz",
+    "origin_m": 144.78,
+    "channels": [
+      {
+        "case_id": "U1445A_RLA5",
+        "channel": "RLA5",
+        "unit": "ohm.m",
+        "step_m": 0.050799999999998846,
+        "pos_only": true,
+        "healthy_rule": "const_gr_and_ref"
+      },
+      {
+        "case_id": "U1445A_RHOM",
+        "channel": "RHOM",
+        "unit": "g/cm3",
+        "step_m": 0.1524000000000001,
+        "pos_only": false,
+        "healthy_rule": "const_gr_and_ref"
+      }
+    ]
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1468B",
+    "npz": "U1468B.npz",
+    "origin_m": 1268.8824000000002,
+    "channels": [
+      {
+        "case_id": "U1468B_RLA5",
+        "channel": "RLA5",
+        "unit": "ohm.m",
+        "step_m": 0.05079999999998108,
+        "pos_only": true,
+        "healthy_rule": "const_gr_and_ref"
+      },
+      {
+        "case_id": "U1468B_RHOM",
+        "channel": "RHOM",
+        "unit": "g/cm3",
+        "step_m": 0.15239999999994325,
+        "pos_only": false,
+        "healthy_rule": "const_gr_and_ref"
+      }
+    ]
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1471E",
+    "npz": "U1471E.npz",
+    "origin_m": 1338.834,
+    "channels": [
+      {
+        "case_id": "U1471E_RLA5",
+        "channel": "RLA5",
+        "unit": "ohm.m",
+        "step_m": 0.05079999999998108,
+        "pos_only": true,
+        "healthy_rule": "const_gr_and_ref"
+      },
+      {
+        "case_id": "U1471E_RHOM",
+        "channel": "RHOM",
+        "unit": "g/cm3",
+        "step_m": 0.15239999999994325,
+        "pos_only": false,
+        "healthy_rule": "const_gr_and_ref"
+      }
+    ]
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1611A",
+    "npz": "U1611A.npz",
+    "origin_m": 1633.2708,
+    "channels": [
+      {
+        "case_id": "U1611A_RLA5",
+        "channel": "RLA5",
+        "unit": "ohm.m",
+        "step_m": 0.05079999999998108,
+        "pos_only": true,
+        "healthy_rule": "const_gr_and_ref"
+      }
+    ]
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1513E",
+    "npz": "U1513E.npz",
+    "origin_m": 3267.1512000000002,
+    "channels": [
+      {
+        "case_id": "U1513E_APLC",
+        "channel": "APLC",
+        "unit": "m3/m3",
+        "step_m": 0.15239999999994325,
+        "pos_only": false,
+        "healthy_rule": "const_gr_and_ref"
+      }
+    ]
+  }
+]

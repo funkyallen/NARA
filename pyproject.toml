@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nara-welllog"
+version = "1.0.0"
+description = "Noise-Adaptive Response Alignment (NARA) for repeat-pass wireline borehole logs"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Jianwen Rui", email = "first91@163.com"}]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+dlis = ["dlisio>=1.0"]
+
+[tool.setuptools.packages.find]
+include = ["nara*"]

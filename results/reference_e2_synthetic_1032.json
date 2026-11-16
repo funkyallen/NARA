@@ -1,0 +1,162 @@
+{
+  "summary_600": {
+    "Primary (216)": {
+      "cases": 216,
+      "wells": 9,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 0.26287039251626454,
+        "well_sd": 0.06368161106716037
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 0.19609017402204806,
+        "well_sd": 0.05949366510358546
+      }
+    },
+    "Ext Stress (108)": {
+      "cases": 108,
+      "wells": 9,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 0.3646972492335004,
+        "well_sd": 0.07146508378888587
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 0.3546665086097028,
+        "well_sd": 0.060083999275286154
+      }
+    },
+    "Misspec Box (54)": {
+      "cases": 54,
+      "wells": 9,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 0.5935422189805539,
+        "well_sd": 0.09080367456354103
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 0.16435545627602144,
+        "well_sd": 0.03464704853760246
+      }
+    },
+    "Misspec Tri+AR1 (54)": {
+      "cases": 54,
+      "wells": 9,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 0.28040289222016834,
+        "well_sd": 0.056422203878113426
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 0.15044057352682377,
+        "well_sd": 0.043245039774540896
+      }
+    },
+    "Misspec Vary+Het (54)": {
+      "cases": 54,
+      "wells": 9,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 0.24127863805216684,
+        "well_sd": 0.0454758919651059
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 0.15584339042403117,
+        "well_sd": 0.02854313099478733
+      }
+    },
+    "Misspec Asym (54)": {
+      "cases": 54,
+      "wells": 9,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 1.2690303256255484,
+        "well_sd": 0.10456296992262004
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 1.4603811280159853,
+        "well_sd": 0.0715247709495033
+      }
+    },
+    "U1580A Symm (48)": {
+      "cases": 48,
+      "wells": 3,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 0.3821344674913494,
+        "well_sd": 0.047739524225641795
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 0.23279697980431138,
+        "well_sd": 0.05658832987535859
+      }
+    },
+    "U1580A Asym (12)": {
+      "cases": 12,
+      "wells": 3,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 1.1354532162081055,
+        "well_sd": 0.02640137474411137
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 1.3712223374827133,
+        "well_sd": 0.02733546834814413
+      }
+    }
+  },
+  "bootstrap_216_primary": {
+    "ra_mean": 0.19609017402204806,
+    "r0_mean": 0.26287039251626454,
+    "diff_mean": -0.06678021849421643,
+    "pct_reduction": 25.404237371496507,
+    "ci95": [
+      -0.09293788560706619,
+      -0.044470529294894263
+    ],
+    "wells_improved": 9
+  },
+  "summary_b432": {
+    "identity": {
+      "cases": 108,
+      "wells": 9,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 0.23430248194252348,
+        "well_sd": 0.058223793835706035
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 0.23848547717842328,
+        "well_sd": 0.048866498500196025
+      }
+    },
+    "large": {
+      "cases": 108,
+      "wells": 9,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 0.2979783244666182,
+        "well_sd": 0.0706999666440757
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 0.21719448133531302,
+        "well_sd": 0.06509524131244836
+      }
+    },
+    "mild": {
+      "cases": 108,
+      "wells": 9,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 0.19853402139995735,
+        "well_sd": 0.04022577582880279
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 0.12393539499553394,
+        "well_sd": 0.02793057874326193
+      }
+    },
+    "shift035": {
+      "cases": 108,
+      "wells": 9,
+      "R0_SNR_HUB": {
+        "well_equal_mae": 0.20080298140464134,
+        "well_sd": 0.03765500541926144
+      },
+      "RA_SNR_HUB": {
+        "well_equal_mae": 0.11639100199785031,
+        "well_sd": 0.012758598455386018
+      }
+    }
+  },
+  "b432_sigma0_activation": 0.4212962962962963
+}

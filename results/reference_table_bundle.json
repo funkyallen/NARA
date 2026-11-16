@@ -1,0 +1,1275 @@
+[
+  {
+    "cohort": "A_dev",
+    "well": "U1580A",
+    "case_id": "U1580A",
+    "channel": "RHOM",
+    "unit": "g/cm3",
+    "common_n": 1019,
+    "healthy_n": 833,
+    "lam_eff": 0.8568,
+    "j_data_pilot": 0.05379,
+    "fwd_model": [
+      1.0,
+      1.0,
+      0.0
+    ],
+    "rev_model": [
+      2.0,
+      1.0,
+      0.0
+    ],
+    "nrg": false,
+    "d_xcorr": -1.0,
+    "all_rmse": {
+      "IDENTITY": 0.196272,
+      "XCORR": 0.196677,
+      "DTW_SLOPE": 0.177517,
+      "RCORR_LENGTH": 0.186139,
+      "BASE_R0": 0.181754,
+      "BASE_RA": 0.221109,
+      "R0_SNR_HUB": 0.186563,
+      "RA_SNR_HUB": 0.189189,
+      "RA_SNR_HUB_NRGATE": 0.189189
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.088923,
+      "XCORR": 0.082435,
+      "DTW_SLOPE": 0.105579,
+      "RCORR_LENGTH": 0.096135,
+      "BASE_R0": 0.100022,
+      "BASE_RA": 0.105241,
+      "R0_SNR_HUB": 0.099409,
+      "RA_SNR_HUB": 0.095582,
+      "RA_SNR_HUB_NRGATE": 0.095582
+    },
+    "all_mae": {
+      "IDENTITY": 0.101081,
+      "XCORR": 0.098329,
+      "DTW_SLOPE": 0.098708,
+      "RCORR_LENGTH": 0.097878,
+      "BASE_R0": 0.097622,
+      "BASE_RA": 0.109256,
+      "R0_SNR_HUB": 0.098303,
+      "RA_SNR_HUB": 0.098828,
+      "RA_SNR_HUB_NRGATE": 0.098828
+    },
+    "all_r": {
+      "IDENTITY": 0.85063,
+      "XCORR": 0.85048,
+      "DTW_SLOPE": 0.87499,
+      "RCORR_LENGTH": 0.86548,
+      "BASE_R0": 0.87148,
+      "BASE_RA": 0.8107,
+      "R0_SNR_HUB": 0.86564,
+      "RA_SNR_HUB": 0.8623,
+      "RA_SNR_HUB_NRGATE": 0.8623
+    }
+  },
+  {
+    "cohort": "A_dev",
+    "well": "U1473A",
+    "case_id": "U1473A",
+    "channel": "DTCO",
+    "unit": "us/ft",
+    "common_n": 4443,
+    "healthy_n": 3924,
+    "lam_eff": 1.9338,
+    "j_data_pilot": 0.12558,
+    "fwd_model": [
+      3.0,
+      1.0,
+      0.0
+    ],
+    "rev_model": [
+      2.0,
+      1.0,
+      0.0
+    ],
+    "nrg": false,
+    "d_xcorr": 5.0,
+    "all_rmse": {
+      "IDENTITY": 8.455414,
+      "XCORR": 6.842767,
+      "DTW_SLOPE": 7.225363,
+      "RCORR_LENGTH": 7.017787,
+      "BASE_R0": 7.067669,
+      "BASE_RA": 6.897285,
+      "R0_SNR_HUB": 6.747057,
+      "RA_SNR_HUB": 6.72372,
+      "RA_SNR_HUB_NRGATE": 6.72372
+    },
+    "healthy_rmse": {
+      "IDENTITY": 6.486067,
+      "XCORR": 4.463668,
+      "DTW_SLOPE": 5.168496,
+      "RCORR_LENGTH": 4.333768,
+      "BASE_R0": 5.195003,
+      "BASE_RA": 4.949726,
+      "R0_SNR_HUB": 4.477544,
+      "RA_SNR_HUB": 4.395712,
+      "RA_SNR_HUB_NRGATE": 4.395712
+    },
+    "all_mae": {
+      "IDENTITY": 4.639267,
+      "XCORR": 3.358759,
+      "DTW_SLOPE": 3.667605,
+      "RCORR_LENGTH": 3.332352,
+      "BASE_R0": 3.673225,
+      "BASE_RA": 3.641736,
+      "R0_SNR_HUB": 3.331872,
+      "RA_SNR_HUB": 3.317633,
+      "RA_SNR_HUB_NRGATE": 3.317633
+    },
+    "all_r": {
+      "IDENTITY": 0.56588,
+      "XCORR": 0.71704,
+      "DTW_SLOPE": 0.68623,
+      "RCORR_LENGTH": 0.69594,
+      "BASE_R0": 0.69433,
+      "BASE_RA": 0.7066,
+      "R0_SNR_HUB": 0.71893,
+      "RA_SNR_HUB": 0.71947,
+      "RA_SNR_HUB_NRGATE": 0.71947
+    }
+  },
+  {
+    "cohort": "A_dev",
+    "well": "U1564F",
+    "case_id": "U1564F_primary",
+    "channel": "RLA5",
+    "unit": "ohm.m",
+    "common_n": 668,
+    "healthy_n": 576,
+    "lam_eff": 4.3049,
+    "j_data_pilot": 0.28366,
+    "fwd_model": [
+      1.0,
+      0.8,
+      -0.2
+    ],
+    "rev_model": [
+      4.0,
+      1.2,
+      0.2
+    ],
+    "nrg": false,
+    "d_xcorr": -1.0,
+    "all_rmse": {
+      "IDENTITY": 11.10312,
+      "XCORR": 10.257968,
+      "DTW_SLOPE": 12.081153,
+      "RCORR_LENGTH": 10.754438,
+      "BASE_R0": 13.691067,
+      "BASE_RA": 14.000792,
+      "R0_SNR_HUB": 10.355516,
+      "RA_SNR_HUB": 10.463862,
+      "RA_SNR_HUB_NRGATE": 10.463862
+    },
+    "healthy_rmse": {
+      "IDENTITY": 11.619033,
+      "XCORR": 10.701863,
+      "DTW_SLOPE": 12.662705,
+      "RCORR_LENGTH": 11.233341,
+      "BASE_R0": 14.092355,
+      "BASE_RA": 14.542589,
+      "R0_SNR_HUB": 10.822332,
+      "RA_SNR_HUB": 10.929086,
+      "RA_SNR_HUB_NRGATE": 10.929086
+    },
+    "all_mae": {
+      "IDENTITY": 5.671653,
+      "XCORR": 5.027983,
+      "DTW_SLOPE": 6.046619,
+      "RCORR_LENGTH": 5.212821,
+      "BASE_R0": 7.438809,
+      "BASE_RA": 7.387273,
+      "R0_SNR_HUB": 5.775838,
+      "RA_SNR_HUB": 5.833949,
+      "RA_SNR_HUB_NRGATE": 5.833949
+    },
+    "all_r": {
+      "IDENTITY": 0.76927,
+      "XCORR": 0.80317,
+      "DTW_SLOPE": 0.72563,
+      "RCORR_LENGTH": 0.78516,
+      "BASE_R0": 0.65176,
+      "BASE_RA": 0.64323,
+      "R0_SNR_HUB": 0.80179,
+      "RA_SNR_HUB": 0.79874,
+      "RA_SNR_HUB_NRGATE": 0.79874
+    }
+  },
+  {
+    "cohort": "A_dev",
+    "well": "U1395B",
+    "case_id": "U1395B_primary",
+    "channel": "RLA5",
+    "unit": "ohm.m",
+    "common_n": 726,
+    "healthy_n": 637,
+    "lam_eff": 6.1247,
+    "j_data_pilot": 0.40498,
+    "fwd_model": [
+      1.0,
+      0.8,
+      -0.2
+    ],
+    "rev_model": [
+      1.0,
+      0.8,
+      0.2
+    ],
+    "nrg": true,
+    "d_xcorr": 3.0,
+    "all_rmse": {
+      "IDENTITY": 0.167911,
+      "XCORR": 0.107434,
+      "DTW_SLOPE": 0.124621,
+      "RCORR_LENGTH": 0.1099,
+      "BASE_R0": 0.126165,
+      "BASE_RA": 0.134183,
+      "R0_SNR_HUB": 0.113168,
+      "RA_SNR_HUB": 0.113384,
+      "RA_SNR_HUB_NRGATE": 0.107434
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.158178,
+      "XCORR": 0.077758,
+      "DTW_SLOPE": 0.102883,
+      "RCORR_LENGTH": 0.081597,
+      "BASE_R0": 0.105043,
+      "BASE_RA": 0.115815,
+      "R0_SNR_HUB": 0.086539,
+      "RA_SNR_HUB": 0.08686,
+      "RA_SNR_HUB_NRGATE": 0.077758
+    },
+    "all_mae": {
+      "IDENTITY": 0.102833,
+      "XCORR": 0.063811,
+      "DTW_SLOPE": 0.073982,
+      "RCORR_LENGTH": 0.065477,
+      "BASE_R0": 0.074537,
+      "BASE_RA": 0.075608,
+      "R0_SNR_HUB": 0.067499,
+      "RA_SNR_HUB": 0.067,
+      "RA_SNR_HUB_NRGATE": 0.063811
+    },
+    "all_r": {
+      "IDENTITY": 0.75052,
+      "XCORR": 0.90127,
+      "DTW_SLOPE": 0.86468,
+      "RCORR_LENGTH": 0.89618,
+      "BASE_R0": 0.85862,
+      "BASE_RA": 0.83843,
+      "R0_SNR_HUB": 0.88881,
+      "RA_SNR_HUB": 0.8885,
+      "RA_SNR_HUB_NRGATE": 0.90127
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1437D",
+    "case_id": "U1437D_RLA5",
+    "channel": "RLA5",
+    "unit": "ohm.m",
+    "common_n": 1135,
+    "healthy_n": 942,
+    "lam_eff": 5.6777,
+    "j_data_pilot": 0.37518,
+    "fwd_model": [
+      1.0,
+      0.8,
+      0.2
+    ],
+    "rev_model": [
+      2.0,
+      0.8,
+      -0.2
+    ],
+    "nrg": true,
+    "d_xcorr": -1.0,
+    "all_rmse": {
+      "IDENTITY": 0.292854,
+      "XCORR": 0.288784,
+      "DTW_SLOPE": 0.344075,
+      "RCORR_LENGTH": 0.321729,
+      "BASE_R0": 0.342831,
+      "BASE_RA": 0.333809,
+      "R0_SNR_HUB": 0.316573,
+      "RA_SNR_HUB": 0.314439,
+      "RA_SNR_HUB_NRGATE": 0.288784
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.264616,
+      "XCORR": 0.259595,
+      "DTW_SLOPE": 0.298906,
+      "RCORR_LENGTH": 0.269171,
+      "BASE_R0": 0.297437,
+      "BASE_RA": 0.301497,
+      "R0_SNR_HUB": 0.267378,
+      "RA_SNR_HUB": 0.266346,
+      "RA_SNR_HUB_NRGATE": 0.259595
+    },
+    "all_mae": {
+      "IDENTITY": 0.204059,
+      "XCORR": 0.200355,
+      "DTW_SLOPE": 0.23627,
+      "RCORR_LENGTH": 0.221166,
+      "BASE_R0": 0.237027,
+      "BASE_RA": 0.233827,
+      "R0_SNR_HUB": 0.21623,
+      "RA_SNR_HUB": 0.214583,
+      "RA_SNR_HUB_NRGATE": 0.200355
+    },
+    "all_r": {
+      "IDENTITY": 0.72199,
+      "XCORR": 0.72996,
+      "DTW_SLOPE": 0.61696,
+      "RCORR_LENGTH": 0.66437,
+      "BASE_R0": 0.6177,
+      "BASE_RA": 0.63863,
+      "R0_SNR_HUB": 0.67362,
+      "RA_SNR_HUB": 0.67838,
+      "RA_SNR_HUB_NRGATE": 0.72996
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1437D",
+    "case_id": "U1437D_RHOM",
+    "channel": "RHOM",
+    "unit": "g/cm3",
+    "common_n": 1135,
+    "healthy_n": 942,
+    "lam_eff": 5.6777,
+    "j_data_pilot": 0.37518,
+    "fwd_model": [
+      1.0,
+      0.8,
+      0.2
+    ],
+    "rev_model": [
+      2.0,
+      0.8,
+      -0.2
+    ],
+    "nrg": true,
+    "d_xcorr": -1.0,
+    "all_rmse": {
+      "IDENTITY": 0.093785,
+      "XCORR": 0.095384,
+      "DTW_SLOPE": 0.102257,
+      "RCORR_LENGTH": 0.103007,
+      "BASE_R0": 0.106645,
+      "BASE_RA": 0.107803,
+      "R0_SNR_HUB": 0.104428,
+      "RA_SNR_HUB": 0.104484,
+      "RA_SNR_HUB_NRGATE": 0.095384
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.086784,
+      "XCORR": 0.085451,
+      "DTW_SLOPE": 0.094353,
+      "RCORR_LENGTH": 0.088473,
+      "BASE_R0": 0.096597,
+      "BASE_RA": 0.098474,
+      "R0_SNR_HUB": 0.089287,
+      "RA_SNR_HUB": 0.08918,
+      "RA_SNR_HUB_NRGATE": 0.085451
+    },
+    "all_mae": {
+      "IDENTITY": 0.063166,
+      "XCORR": 0.064623,
+      "DTW_SLOPE": 0.069328,
+      "RCORR_LENGTH": 0.067776,
+      "BASE_R0": 0.071393,
+      "BASE_RA": 0.071958,
+      "R0_SNR_HUB": 0.068851,
+      "RA_SNR_HUB": 0.068789,
+      "RA_SNR_HUB_NRGATE": 0.064623
+    },
+    "all_r": {
+      "IDENTITY": 0.76047,
+      "XCORR": 0.75222,
+      "DTW_SLOPE": 0.71436,
+      "RCORR_LENGTH": 0.70944,
+      "BASE_R0": 0.69426,
+      "BASE_RA": 0.68743,
+      "R0_SNR_HUB": 0.70155,
+      "RA_SNR_HUB": 0.70104,
+      "RA_SNR_HUB_NRGATE": 0.75222
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1467E",
+    "case_id": "U1467E_RLA5",
+    "channel": "RLA5",
+    "unit": "ohm.m",
+    "common_n": 755,
+    "healthy_n": 671,
+    "lam_eff": 0.5324,
+    "j_data_pilot": 0.03216,
+    "fwd_model": [
+      1.0,
+      1.0,
+      0.0
+    ],
+    "rev_model": [
+      1.0,
+      1.0,
+      0.0
+    ],
+    "nrg": false,
+    "d_xcorr": -1.0,
+    "all_rmse": {
+      "IDENTITY": 0.14061,
+      "XCORR": 0.130964,
+      "DTW_SLOPE": 0.159381,
+      "RCORR_LENGTH": 0.120534,
+      "BASE_R0": 0.147969,
+      "BASE_RA": 0.149738,
+      "R0_SNR_HUB": 0.126898,
+      "RA_SNR_HUB": 0.126524,
+      "RA_SNR_HUB_NRGATE": 0.126524
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.130093,
+      "XCORR": 0.120439,
+      "DTW_SLOPE": 0.152567,
+      "RCORR_LENGTH": 0.109239,
+      "BASE_R0": 0.137214,
+      "BASE_RA": 0.138445,
+      "R0_SNR_HUB": 0.118853,
+      "RA_SNR_HUB": 0.118404,
+      "RA_SNR_HUB_NRGATE": 0.118404
+    },
+    "all_mae": {
+      "IDENTITY": 0.099717,
+      "XCORR": 0.096427,
+      "DTW_SLOPE": 0.104852,
+      "RCORR_LENGTH": 0.092655,
+      "BASE_R0": 0.101312,
+      "BASE_RA": 0.101909,
+      "R0_SNR_HUB": 0.095678,
+      "RA_SNR_HUB": 0.09587,
+      "RA_SNR_HUB_NRGATE": 0.09587
+    },
+    "all_r": {
+      "IDENTITY": 0.88739,
+      "XCORR": 0.91471,
+      "DTW_SLOPE": 0.83536,
+      "RCORR_LENGTH": 0.94008,
+      "BASE_R0": 0.87822,
+      "BASE_RA": 0.86924,
+      "R0_SNR_HUB": 0.92491,
+      "RA_SNR_HUB": 0.92709,
+      "RA_SNR_HUB_NRGATE": 0.92709
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1467E",
+    "case_id": "U1467E_RHOM",
+    "channel": "RHOM",
+    "unit": "g/cm3",
+    "common_n": 755,
+    "healthy_n": 671,
+    "lam_eff": 0.5324,
+    "j_data_pilot": 0.03216,
+    "fwd_model": [
+      1.0,
+      1.0,
+      0.0
+    ],
+    "rev_model": [
+      1.0,
+      1.0,
+      0.0
+    ],
+    "nrg": false,
+    "d_xcorr": -1.0,
+    "all_rmse": {
+      "IDENTITY": 0.045193,
+      "XCORR": 0.045002,
+      "DTW_SLOPE": 0.049414,
+      "RCORR_LENGTH": 0.044506,
+      "BASE_R0": 0.048119,
+      "BASE_RA": 0.048505,
+      "R0_SNR_HUB": 0.044979,
+      "RA_SNR_HUB": 0.044976,
+      "RA_SNR_HUB_NRGATE": 0.044976
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.020778,
+      "XCORR": 0.019972,
+      "DTW_SLOPE": 0.024456,
+      "RCORR_LENGTH": 0.018284,
+      "BASE_R0": 0.020082,
+      "BASE_RA": 0.02021,
+      "R0_SNR_HUB": 0.019055,
+      "RA_SNR_HUB": 0.019046,
+      "RA_SNR_HUB_NRGATE": 0.019046
+    },
+    "all_mae": {
+      "IDENTITY": 0.026317,
+      "XCORR": 0.024785,
+      "DTW_SLOPE": 0.027479,
+      "RCORR_LENGTH": 0.023423,
+      "BASE_R0": 0.025636,
+      "BASE_RA": 0.025912,
+      "R0_SNR_HUB": 0.023859,
+      "RA_SNR_HUB": 0.023892,
+      "RA_SNR_HUB_NRGATE": 0.023892
+    },
+    "all_r": {
+      "IDENTITY": 0.82931,
+      "XCORR": 0.83198,
+      "DTW_SLOPE": 0.7781,
+      "RCORR_LENGTH": 0.84,
+      "BASE_R0": 0.79863,
+      "BASE_RA": 0.79386,
+      "R0_SNR_HUB": 0.83488,
+      "RA_SNR_HUB": 0.83496,
+      "RA_SNR_HUB_NRGATE": 0.83496
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1545A",
+    "case_id": "U1545A_DTCO",
+    "channel": "DTCO",
+    "unit": "us/ft",
+    "common_n": 2163,
+    "healthy_n": 2163,
+    "lam_eff": 0.678,
+    "j_data_pilot": 0.04187,
+    "fwd_model": [
+      1.0,
+      0.8,
+      0.0
+    ],
+    "rev_model": [
+      2.0,
+      1.2,
+      0.0
+    ],
+    "nrg": false,
+    "d_xcorr": -1.0,
+    "all_rmse": {
+      "IDENTITY": 1.857466,
+      "XCORR": 1.830831,
+      "DTW_SLOPE": 1.86775,
+      "RCORR_LENGTH": 1.794011,
+      "BASE_R0": 1.856975,
+      "BASE_RA": 1.861261,
+      "R0_SNR_HUB": 1.827297,
+      "RA_SNR_HUB": 1.825069,
+      "RA_SNR_HUB_NRGATE": 1.825069
+    },
+    "healthy_rmse": {
+      "IDENTITY": 1.857466,
+      "XCORR": 1.830831,
+      "DTW_SLOPE": 1.86775,
+      "RCORR_LENGTH": 1.794011,
+      "BASE_R0": 1.856975,
+      "BASE_RA": 1.861261,
+      "R0_SNR_HUB": 1.827297,
+      "RA_SNR_HUB": 1.825069,
+      "RA_SNR_HUB_NRGATE": 1.825069
+    },
+    "all_mae": {
+      "IDENTITY": 0.976095,
+      "XCORR": 0.954625,
+      "DTW_SLOPE": 0.98816,
+      "RCORR_LENGTH": 0.929903,
+      "BASE_R0": 0.989229,
+      "BASE_RA": 0.999926,
+      "R0_SNR_HUB": 0.953594,
+      "RA_SNR_HUB": 0.953692,
+      "RA_SNR_HUB_NRGATE": 0.953692
+    },
+    "all_r": {
+      "IDENTITY": 0.95629,
+      "XCORR": 0.9576,
+      "DTW_SLOPE": 0.95583,
+      "RCORR_LENGTH": 0.95931,
+      "BASE_R0": 0.95641,
+      "BASE_RA": 0.95619,
+      "R0_SNR_HUB": 0.95775,
+      "RA_SNR_HUB": 0.95785,
+      "RA_SNR_HUB_NRGATE": 0.95785
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1623D",
+    "case_id": "U1623D_RLA5",
+    "channel": "RLA5",
+    "unit": "ohm.m",
+    "common_n": 675,
+    "healthy_n": 597,
+    "lam_eff": 3.0007,
+    "j_data_pilot": 0.19671,
+    "fwd_model": [
+      1.0,
+      0.8,
+      0.0
+    ],
+    "rev_model": [
+      2.0,
+      1.0,
+      0.0
+    ],
+    "nrg": false,
+    "d_xcorr": 1.0,
+    "all_rmse": {
+      "IDENTITY": 0.192574,
+      "XCORR": 0.19287,
+      "DTW_SLOPE": 0.204272,
+      "RCORR_LENGTH": 0.194031,
+      "BASE_R0": 0.21675,
+      "BASE_RA": 0.218802,
+      "R0_SNR_HUB": 0.19949,
+      "RA_SNR_HUB": 0.200322,
+      "RA_SNR_HUB_NRGATE": 0.200322
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.179985,
+      "XCORR": 0.180143,
+      "DTW_SLOPE": 0.187777,
+      "RCORR_LENGTH": 0.177494,
+      "BASE_R0": 0.193782,
+      "BASE_RA": 0.197609,
+      "R0_SNR_HUB": 0.184051,
+      "RA_SNR_HUB": 0.185071,
+      "RA_SNR_HUB_NRGATE": 0.185071
+    },
+    "all_mae": {
+      "IDENTITY": 0.12592,
+      "XCORR": 0.122829,
+      "DTW_SLOPE": 0.136513,
+      "RCORR_LENGTH": 0.125462,
+      "BASE_R0": 0.140379,
+      "BASE_RA": 0.142356,
+      "R0_SNR_HUB": 0.130011,
+      "RA_SNR_HUB": 0.130429,
+      "RA_SNR_HUB_NRGATE": 0.130429
+    },
+    "all_r": {
+      "IDENTITY": 0.76932,
+      "XCORR": 0.76857,
+      "DTW_SLOPE": 0.7426,
+      "RCORR_LENGTH": 0.76499,
+      "BASE_R0": 0.70399,
+      "BASE_RA": 0.69783,
+      "R0_SNR_HUB": 0.75139,
+      "RA_SNR_HUB": 0.74961,
+      "RA_SNR_HUB_NRGATE": 0.74961
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1623D",
+    "case_id": "U1623D_RHOM",
+    "channel": "RHOM",
+    "unit": "g/cm3",
+    "common_n": 675,
+    "healthy_n": 597,
+    "lam_eff": 3.0007,
+    "j_data_pilot": 0.19671,
+    "fwd_model": [
+      1.0,
+      0.8,
+      0.0
+    ],
+    "rev_model": [
+      2.0,
+      1.0,
+      0.0
+    ],
+    "nrg": false,
+    "d_xcorr": 1.0,
+    "all_rmse": {
+      "IDENTITY": 0.215422,
+      "XCORR": 0.214314,
+      "DTW_SLOPE": 0.215798,
+      "RCORR_LENGTH": 0.214163,
+      "BASE_R0": 0.217366,
+      "BASE_RA": 0.217879,
+      "R0_SNR_HUB": 0.213748,
+      "RA_SNR_HUB": 0.213724,
+      "RA_SNR_HUB_NRGATE": 0.213724
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.116948,
+      "XCORR": 0.114622,
+      "DTW_SLOPE": 0.117745,
+      "RCORR_LENGTH": 0.114303,
+      "BASE_R0": 0.122533,
+      "BASE_RA": 0.123562,
+      "R0_SNR_HUB": 0.113443,
+      "RA_SNR_HUB": 0.113393,
+      "RA_SNR_HUB_NRGATE": 0.113393
+    },
+    "all_mae": {
+      "IDENTITY": 0.129504,
+      "XCORR": 0.126851,
+      "DTW_SLOPE": 0.130752,
+      "RCORR_LENGTH": 0.12626,
+      "BASE_R0": 0.133618,
+      "BASE_RA": 0.134511,
+      "R0_SNR_HUB": 0.126267,
+      "RA_SNR_HUB": 0.126285,
+      "RA_SNR_HUB_NRGATE": 0.126285
+    },
+    "all_r": {
+      "IDENTITY": 0.34632,
+      "XCORR": 0.35415,
+      "DTW_SLOPE": 0.33949,
+      "RCORR_LENGTH": 0.35207,
+      "BASE_R0": 0.32905,
+      "BASE_RA": 0.32501,
+      "R0_SNR_HUB": 0.35494,
+      "RA_SNR_HUB": 0.35517,
+      "RA_SNR_HUB_NRGATE": 0.35517
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1445A",
+    "case_id": "U1445A_RLA5",
+    "channel": "RLA5",
+    "unit": "ohm.m",
+    "common_n": 1960,
+    "healthy_n": 1879,
+    "lam_eff": 1.8173,
+    "j_data_pilot": 0.11782,
+    "fwd_model": [
+      2.0,
+      1.0,
+      0.0
+    ],
+    "rev_model": [
+      2.0,
+      1.0,
+      0.0
+    ],
+    "nrg": false,
+    "d_xcorr": -2.0,
+    "all_rmse": {
+      "IDENTITY": 0.075417,
+      "XCORR": 0.072348,
+      "DTW_SLOPE": 0.06729,
+      "RCORR_LENGTH": 0.06916,
+      "BASE_R0": 0.067078,
+      "BASE_RA": 0.068911,
+      "R0_SNR_HUB": 0.065037,
+      "RA_SNR_HUB": 0.06607,
+      "RA_SNR_HUB_NRGATE": 0.06607
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.075764,
+      "XCORR": 0.072781,
+      "DTW_SLOPE": 0.067262,
+      "RCORR_LENGTH": 0.069012,
+      "BASE_R0": 0.067397,
+      "BASE_RA": 0.069302,
+      "R0_SNR_HUB": 0.06476,
+      "RA_SNR_HUB": 0.065961,
+      "RA_SNR_HUB_NRGATE": 0.065961
+    },
+    "all_mae": {
+      "IDENTITY": 0.048512,
+      "XCORR": 0.046593,
+      "DTW_SLOPE": 0.044876,
+      "RCORR_LENGTH": 0.043589,
+      "BASE_R0": 0.044547,
+      "BASE_RA": 0.045443,
+      "R0_SNR_HUB": 0.042418,
+      "RA_SNR_HUB": 0.04309,
+      "RA_SNR_HUB_NRGATE": 0.04309
+    },
+    "all_r": {
+      "IDENTITY": 0.52837,
+      "XCORR": 0.56681,
+      "DTW_SLOPE": 0.62268,
+      "RCORR_LENGTH": 0.60089,
+      "BASE_R0": 0.62484,
+      "BASE_RA": 0.60504,
+      "R0_SNR_HUB": 0.64885,
+      "RA_SNR_HUB": 0.63712,
+      "RA_SNR_HUB_NRGATE": 0.63712
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1445A",
+    "case_id": "U1445A_RHOM",
+    "channel": "RHOM",
+    "unit": "g/cm3",
+    "common_n": 1960,
+    "healthy_n": 1879,
+    "lam_eff": 1.8173,
+    "j_data_pilot": 0.11782,
+    "fwd_model": [
+      2.0,
+      1.0,
+      0.0
+    ],
+    "rev_model": [
+      2.0,
+      1.0,
+      0.0
+    ],
+    "nrg": false,
+    "d_xcorr": -2.0,
+    "all_rmse": {
+      "IDENTITY": 0.091899,
+      "XCORR": 0.090534,
+      "DTW_SLOPE": 0.081846,
+      "RCORR_LENGTH": 0.086005,
+      "BASE_R0": 0.078292,
+      "BASE_RA": 0.078697,
+      "R0_SNR_HUB": 0.079374,
+      "RA_SNR_HUB": 0.079747,
+      "RA_SNR_HUB_NRGATE": 0.079747
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.093716,
+      "XCORR": 0.092321,
+      "DTW_SLOPE": 0.083432,
+      "RCORR_LENGTH": 0.087687,
+      "BASE_R0": 0.079795,
+      "BASE_RA": 0.08021,
+      "R0_SNR_HUB": 0.080902,
+      "RA_SNR_HUB": 0.081284,
+      "RA_SNR_HUB_NRGATE": 0.081284
+    },
+    "all_mae": {
+      "IDENTITY": 0.046244,
+      "XCORR": 0.045688,
+      "DTW_SLOPE": 0.042003,
+      "RCORR_LENGTH": 0.041876,
+      "BASE_R0": 0.039605,
+      "BASE_RA": 0.039953,
+      "R0_SNR_HUB": 0.038843,
+      "RA_SNR_HUB": 0.039092,
+      "RA_SNR_HUB_NRGATE": 0.039092
+    },
+    "all_r": {
+      "IDENTITY": 0.64199,
+      "XCORR": 0.65257,
+      "DTW_SLOPE": 0.71724,
+      "RCORR_LENGTH": 0.68729,
+      "BASE_R0": 0.73826,
+      "BASE_RA": 0.73567,
+      "R0_SNR_HUB": 0.73575,
+      "RA_SNR_HUB": 0.73394,
+      "RA_SNR_HUB_NRGATE": 0.73394
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1468B",
+    "case_id": "U1468B_RLA5",
+    "channel": "RLA5",
+    "unit": "ohm.m",
+    "common_n": 589,
+    "healthy_n": 514,
+    "lam_eff": 1.6926,
+    "j_data_pilot": 0.10951,
+    "fwd_model": [
+      1.0,
+      1.0,
+      0.0
+    ],
+    "rev_model": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "nrg": false,
+    "d_xcorr": -2.0,
+    "all_rmse": {
+      "IDENTITY": 0.164066,
+      "XCORR": 0.136412,
+      "DTW_SLOPE": 0.178353,
+      "RCORR_LENGTH": 0.133092,
+      "BASE_R0": 0.156387,
+      "BASE_RA": 0.156198,
+      "R0_SNR_HUB": 0.139323,
+      "RA_SNR_HUB": 0.138606,
+      "RA_SNR_HUB_NRGATE": 0.138606
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.129405,
+      "XCORR": 0.097674,
+      "DTW_SLOPE": 0.134192,
+      "RCORR_LENGTH": 0.088852,
+      "BASE_R0": 0.126202,
+      "BASE_RA": 0.126082,
+      "R0_SNR_HUB": 0.090242,
+      "RA_SNR_HUB": 0.090623,
+      "RA_SNR_HUB_NRGATE": 0.090623
+    },
+    "all_mae": {
+      "IDENTITY": 0.096183,
+      "XCORR": 0.074625,
+      "DTW_SLOPE": 0.100629,
+      "RCORR_LENGTH": 0.072594,
+      "BASE_R0": 0.087226,
+      "BASE_RA": 0.087399,
+      "R0_SNR_HUB": 0.073622,
+      "RA_SNR_HUB": 0.073703,
+      "RA_SNR_HUB_NRGATE": 0.073703
+    },
+    "all_r": {
+      "IDENTITY": 0.46025,
+      "XCORR": 0.63702,
+      "DTW_SLOPE": 0.35834,
+      "RCORR_LENGTH": 0.65471,
+      "BASE_R0": 0.51036,
+      "BASE_RA": 0.51184,
+      "R0_SNR_HUB": 0.62059,
+      "RA_SNR_HUB": 0.626,
+      "RA_SNR_HUB_NRGATE": 0.626
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1468B",
+    "case_id": "U1468B_RHOM",
+    "channel": "RHOM",
+    "unit": "g/cm3",
+    "common_n": 589,
+    "healthy_n": 514,
+    "lam_eff": 1.6926,
+    "j_data_pilot": 0.10951,
+    "fwd_model": [
+      1.0,
+      1.0,
+      0.0
+    ],
+    "rev_model": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "nrg": false,
+    "d_xcorr": -2.0,
+    "all_rmse": {
+      "IDENTITY": 0.244237,
+      "XCORR": 0.24368,
+      "DTW_SLOPE": 0.244485,
+      "RCORR_LENGTH": 0.243642,
+      "BASE_R0": 0.244217,
+      "BASE_RA": 0.244217,
+      "R0_SNR_HUB": 0.243696,
+      "RA_SNR_HUB": 0.243669,
+      "RA_SNR_HUB_NRGATE": 0.243669
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.051636,
+      "XCORR": 0.048525,
+      "DTW_SLOPE": 0.052977,
+      "RCORR_LENGTH": 0.048306,
+      "BASE_R0": 0.051528,
+      "BASE_RA": 0.051527,
+      "R0_SNR_HUB": 0.048617,
+      "RA_SNR_HUB": 0.048464,
+      "RA_SNR_HUB_NRGATE": 0.048464
+    },
+    "all_mae": {
+      "IDENTITY": 0.102622,
+      "XCORR": 0.097673,
+      "DTW_SLOPE": 0.102973,
+      "RCORR_LENGTH": 0.097106,
+      "BASE_R0": 0.099989,
+      "BASE_RA": 0.100147,
+      "R0_SNR_HUB": 0.097799,
+      "RA_SNR_HUB": 0.097672,
+      "RA_SNR_HUB_NRGATE": 0.097672
+    },
+    "all_r": {
+      "IDENTITY": -0.27043,
+      "XCORR": -0.25492,
+      "DTW_SLOPE": -0.2869,
+      "RCORR_LENGTH": -0.25784,
+      "BASE_R0": -0.26277,
+      "BASE_RA": -0.26318,
+      "R0_SNR_HUB": -0.25743,
+      "RA_SNR_HUB": -0.25521,
+      "RA_SNR_HUB_NRGATE": -0.25521
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1471E",
+    "case_id": "U1471E_RLA5",
+    "channel": "RLA5",
+    "unit": "ohm.m",
+    "common_n": 580,
+    "healthy_n": 493,
+    "lam_eff": 9.5077,
+    "j_data_pilot": 0.63051,
+    "fwd_model": [
+      2.0,
+      0.8,
+      -0.2
+    ],
+    "rev_model": [
+      2.0,
+      1.0,
+      0.2
+    ],
+    "nrg": false,
+    "d_xcorr": -5.0,
+    "all_rmse": {
+      "IDENTITY": 0.190327,
+      "XCORR": 0.162618,
+      "DTW_SLOPE": 0.179168,
+      "RCORR_LENGTH": 0.132826,
+      "BASE_R0": 0.188492,
+      "BASE_RA": 0.19027,
+      "R0_SNR_HUB": 0.176512,
+      "RA_SNR_HUB": 0.176398,
+      "RA_SNR_HUB_NRGATE": 0.176398
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.180909,
+      "XCORR": 0.137453,
+      "DTW_SLOPE": 0.16466,
+      "RCORR_LENGTH": 0.131224,
+      "BASE_R0": 0.169223,
+      "BASE_RA": 0.171549,
+      "R0_SNR_HUB": 0.154689,
+      "RA_SNR_HUB": 0.154537,
+      "RA_SNR_HUB_NRGATE": 0.154537
+    },
+    "all_mae": {
+      "IDENTITY": 0.139182,
+      "XCORR": 0.108292,
+      "DTW_SLOPE": 0.127104,
+      "RCORR_LENGTH": 0.095071,
+      "BASE_R0": 0.136657,
+      "BASE_RA": 0.139894,
+      "R0_SNR_HUB": 0.124854,
+      "RA_SNR_HUB": 0.124359,
+      "RA_SNR_HUB_NRGATE": 0.124359
+    },
+    "all_r": {
+      "IDENTITY": 0.55858,
+      "XCORR": 0.67903,
+      "DTW_SLOPE": 0.60841,
+      "RCORR_LENGTH": 0.78531,
+      "BASE_R0": 0.57437,
+      "BASE_RA": 0.56298,
+      "R0_SNR_HUB": 0.61919,
+      "RA_SNR_HUB": 0.61951,
+      "RA_SNR_HUB_NRGATE": 0.61951
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1471E",
+    "case_id": "U1471E_RHOM",
+    "channel": "RHOM",
+    "unit": "g/cm3",
+    "common_n": 580,
+    "healthy_n": 493,
+    "lam_eff": 9.5077,
+    "j_data_pilot": 0.63051,
+    "fwd_model": [
+      2.0,
+      0.8,
+      -0.2
+    ],
+    "rev_model": [
+      2.0,
+      1.0,
+      0.2
+    ],
+    "nrg": false,
+    "d_xcorr": -5.0,
+    "all_rmse": {
+      "IDENTITY": 0.071098,
+      "XCORR": 0.063304,
+      "DTW_SLOPE": 0.05033,
+      "RCORR_LENGTH": 0.065007,
+      "BASE_R0": 0.07316,
+      "BASE_RA": 0.072651,
+      "R0_SNR_HUB": 0.06456,
+      "RA_SNR_HUB": 0.064475,
+      "RA_SNR_HUB_NRGATE": 0.064475
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.077088,
+      "XCORR": 0.068619,
+      "DTW_SLOPE": 0.054557,
+      "RCORR_LENGTH": 0.070472,
+      "BASE_R0": 0.079242,
+      "BASE_RA": 0.078689,
+      "R0_SNR_HUB": 0.069981,
+      "RA_SNR_HUB": 0.069889,
+      "RA_SNR_HUB_NRGATE": 0.069889
+    },
+    "all_mae": {
+      "IDENTITY": 0.042791,
+      "XCORR": 0.041365,
+      "DTW_SLOPE": 0.037024,
+      "RCORR_LENGTH": 0.041059,
+      "BASE_R0": 0.046386,
+      "BASE_RA": 0.046329,
+      "R0_SNR_HUB": 0.041498,
+      "RA_SNR_HUB": 0.041599,
+      "RA_SNR_HUB_NRGATE": 0.041599
+    },
+    "all_r": {
+      "IDENTITY": 0.76056,
+      "XCORR": 0.8244,
+      "DTW_SLOPE": 0.90471,
+      "RCORR_LENGTH": 0.8128,
+      "BASE_R0": 0.74039,
+      "BASE_RA": 0.7452,
+      "R0_SNR_HUB": 0.81574,
+      "RA_SNR_HUB": 0.81592,
+      "RA_SNR_HUB_NRGATE": 0.81592
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1611A",
+    "case_id": "U1611A_RLA5",
+    "channel": "RLA5",
+    "unit": "ohm.m",
+    "common_n": 568,
+    "healthy_n": 444,
+    "lam_eff": 8.2349,
+    "j_data_pilot": 0.54566,
+    "fwd_model": [
+      4.0,
+      1.0,
+      0.2
+    ],
+    "rev_model": [
+      4.0,
+      0.8,
+      -0.2
+    ],
+    "nrg": false,
+    "d_xcorr": -12.0,
+    "all_rmse": {
+      "IDENTITY": 0.365306,
+      "XCORR": 0.341046,
+      "DTW_SLOPE": 0.349688,
+      "RCORR_LENGTH": 0.32646,
+      "BASE_R0": 0.334389,
+      "BASE_RA": 0.331468,
+      "R0_SNR_HUB": 0.329157,
+      "RA_SNR_HUB": 0.318914,
+      "RA_SNR_HUB_NRGATE": 0.318914
+    },
+    "healthy_rmse": {
+      "IDENTITY": 0.343117,
+      "XCORR": 0.294749,
+      "DTW_SLOPE": 0.326251,
+      "RCORR_LENGTH": 0.277168,
+      "BASE_R0": 0.289753,
+      "BASE_RA": 0.28852,
+      "R0_SNR_HUB": 0.281566,
+      "RA_SNR_HUB": 0.266315,
+      "RA_SNR_HUB_NRGATE": 0.266315
+    },
+    "all_mae": {
+      "IDENTITY": 0.290817,
+      "XCORR": 0.275361,
+      "DTW_SLOPE": 0.282554,
+      "RCORR_LENGTH": 0.260098,
+      "BASE_R0": 0.268191,
+      "BASE_RA": 0.266244,
+      "R0_SNR_HUB": 0.264255,
+      "RA_SNR_HUB": 0.256509,
+      "RA_SNR_HUB_NRGATE": 0.256509
+    },
+    "all_r": {
+      "IDENTITY": -0.018,
+      "XCORR": 0.19171,
+      "DTW_SLOPE": 0.13258,
+      "RCORR_LENGTH": 0.27613,
+      "BASE_R0": 0.21681,
+      "BASE_RA": 0.22188,
+      "R0_SNR_HUB": 0.25608,
+      "RA_SNR_HUB": 0.34107,
+      "RA_SNR_HUB_NRGATE": 0.34107
+    }
+  },
+  {
+    "cohort": "B_eval",
+    "well": "U1513E",
+    "case_id": "U1513E_APLC",
+    "channel": "APLC",
+    "unit": "m3/m3",
+    "common_n": 888,
+    "healthy_n": 888,
+    "lam_eff": 2.3778,
+    "j_data_pilot": 0.15519,
+    "fwd_model": [
+      3.0,
+      1.0,
+      0.2
+    ],
+    "rev_model": [
+      2.0,
+      0.8,
+      -0.2
+    ],
+    "nrg": false,
+    "d_xcorr": -1.0,
+    "all_rmse": {
+      "IDENTITY": 2.331313,
+      "XCORR": 2.331599,
+      "DTW_SLOPE": 2.317619,
+      "RCORR_LENGTH": 2.296817,
+      "BASE_R0": 2.30444,
+      "BASE_RA": 2.308441,
+      "R0_SNR_HUB": 2.295846,
+      "RA_SNR_HUB": 2.295235,
+      "RA_SNR_HUB_NRGATE": 2.295235
+    },
+    "healthy_rmse": {
+      "IDENTITY": 2.331313,
+      "XCORR": 2.331599,
+      "DTW_SLOPE": 2.317619,
+      "RCORR_LENGTH": 2.296817,
+      "BASE_R0": 2.30444,
+      "BASE_RA": 2.308441,
+      "R0_SNR_HUB": 2.295846,
+      "RA_SNR_HUB": 2.295235,
+      "RA_SNR_HUB_NRGATE": 2.295235
+    },
+    "all_mae": {
+      "IDENTITY": 0.822312,
+      "XCORR": 0.822312,
+      "DTW_SLOPE": 0.823791,
+      "RCORR_LENGTH": 0.818616,
+      "BASE_R0": 0.81587,
+      "BASE_RA": 0.82395,
+      "R0_SNR_HUB": 0.820076,
+      "RA_SNR_HUB": 0.821873,
+      "RA_SNR_HUB_NRGATE": 0.821873
+    },
+    "all_r": {
+      "IDENTITY": -0.2527,
+      "XCORR": -0.25363,
+      "DTW_SLOPE": -0.26754,
+      "RCORR_LENGTH": -0.28071,
+      "BASE_R0": -0.2733,
+      "BASE_RA": -0.27202,
+      "R0_SNR_HUB": -0.28207,
+      "RA_SNR_HUB": -0.28334,
+      "RA_SNR_HUB_NRGATE": -0.28334
+    }
+  }
+]

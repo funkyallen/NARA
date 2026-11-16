@@ -1,0 +1,5 @@
+numpy>=1.26
+scipy>=1.11
+matplotlib>=3.8
+# Optional (only needed if re-extracting curves from raw LDEO IODP DLIS files):
+# dlisio>=1.0
