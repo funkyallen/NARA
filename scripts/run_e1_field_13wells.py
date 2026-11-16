@@ -11,7 +11,7 @@ REPO = Path(__file__).resolve().parents[1]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
-from nara import MODELS, Graph, align_nara, correlation, slope_dtw
+from nara import MODELS, Graph, align_nara, correlation, slope_dtw, solve_core
 from nara.graph import rcorr_length_map
 from nara.solver import constant_runs_mask, good, sample_aux, score_metrics
 
@@ -38,10 +38,11 @@ def eval_well(wrec: dict):
     sol_b0 = g0.solve(xf, y, MODELS[MODELS[:, 0] == 0])
     sol_bra = g0.solve(xf, y, MODELS)
 
+    mp_r0_snr, *_ = solve_core(xf, y, band=20.0, r0_only=True, adaptive=True)
     res_nara = align_nara(xf, y, band=20.0, rev_xf=rev_xf, rev_y=rev_y, use_gate=True)
 
-    methods = ["IDENTITY", "XCORR", "DTW", "RCORR", "Base-0", "Base-RA", "NARA"]
-    maps = np.array([mp_id, mp_xc, mp_dtw, mp_rc, sol_b0["mapped"], sol_bra["mapped"], res_nara["mapped"]])
+    methods = ["IDENTITY", "XCORR", "DTW", "RCORR", "Base-0", "Base-RA", "w/o Broadening", "NARA"]
+    maps = np.array([mp_id, mp_xc, mp_dtw, mp_rc, sol_b0["mapped"], sol_bra["mapped"], mp_r0_snr, res_nara["mapped"]])
     wsf_m = origin + maps * 0.1524
 
     eps = []
@@ -58,12 +59,12 @@ def eval_well(wrec: dict):
         hrule = ch["healthy_rule"]
         if hrule == "lcal_gt_6":
             lcal_all = np.array([sample_aux(tar_d, d["tar_lcal"], m, float(ch["step_m"]), False) for m in wsf_m])
-            healthy = common & (d["ref_lcal"] > 6.0) & np.all(lcal_all > 6.0, axis=0) & (~const_gr)
+            screened = common & (d["ref_lcal"] > 6.0) & np.all(lcal_all > 6.0, axis=0) & (~const_gr)
         elif hrule == "chrp_gt_0":
             tc_all = np.array([sample_aux(tar_d, d["tar_chrp"], m, float(ch["step_m"]), False) for m in wsf_m])
-            healthy = common & (d["ref_chrp"] > 0.0) & np.all(tc_all > 0.0, axis=0)
+            screened = common & (d["ref_chrp"] > 0.0) & np.all(tc_all > 0.0, axis=0)
         else:
-            healthy = common & (~const_gr) & (~constant_runs_mask(ref_v, 1e-7, 5))
+            screened = common & (~const_gr) & (~constant_runs_mask(ref_v, 1e-7, 5))
 
         eps.append({
             "cohort": wrec["cohort"],
@@ -71,17 +72,25 @@ def eval_well(wrec: dict):
             "case_id": ch["case_id"],
             "channel": ch["channel"],
             "common_n": int(common.sum()),
-            "healthy_n": int(healthy.sum()),
+            "screened_n": int(screened.sum()),
             "lam_eff": round(res_nara["lam_eff"], 4),
             "gate_triggered": bool(res_nara["gate_triggered"]),
-            "scores": score_metrics(ref_v, aligned, common, healthy, methods),
+            "scores": score_metrics(ref_v, aligned, common, screened, methods),
         })
     return eps
 
 
+def _well_equal_mean(eps: list, method: str, mask_key: str) -> float:
+    wells = sorted(set(e["well"] for e in eps))
+    return float(np.mean([
+        np.mean([e["scores"][method][mask_key]["rmse"] / e["scores"]["XCORR"][mask_key]["rmse"] for e in eps if e["well"] == w])
+        for w in wells
+    ]))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--verify", action="store_true", help="Assert exact match against results/reference_e1_field_13wells.json")
+    ap.add_argument("--verify", action="store_true", help="Assert exact parity against results/reference_e1_field_13wells.json")
     ap.add_argument("--workers", type=int, default=8)
     args = ap.parse_args()
 
@@ -98,18 +107,42 @@ def main():
         r_all = np.array([e["scores"][m]["all"]["rmse"] / e["scores"]["XCORR"]["all"]["rmse"] for e in all_ep])
         r_bf = np.array([e["scores"][m]["all"]["rmse"] / e["scores"]["XCORR"]["all"]["rmse"] for e in sub_b])
         r_bh = np.array([e["scores"][m]["healthy"]["rmse"] / e["scores"]["XCORR"]["healthy"]["rmse"] for e in sub_b])
+        we_all = _well_equal_mean(all_ep, m, "all")
+        we_bh = _well_equal_mean(sub_b, m, "healthy")
         print(
-            f"{m:<8} | All19: {int(np.sum(r_all < 1 - 1e-12)):2d}/19 (>5%: {int(np.sum(r_all > 1.05)):2d}, mean={r_all.mean():.4f}) | "
-            f"Blind-Full: {int(np.sum(r_bf < 1 - 1e-12)):2d}/15 (mean={r_bf.mean():.4f}) | "
-            f"Blind-Healthy: {int(np.sum(r_bh < 1 - 1e-12)):2d}/15 (mean={r_bh.mean():.4f})"
+            f"{m:<8} | All19: {int(np.sum(r_all < 1 - 1e-12)):2d}/19 (>5%: {int(np.sum(r_all > 1.05)):2d}, ep={r_all.mean():.4f}, well={we_all:.4f}) | "
+            f"Blind-Full: {int(np.sum(r_bf < 1 - 1e-12)):2d}/15 (ep={r_bf.mean():.4f}) | "
+            f"Blind-Screened: {int(np.sum(r_bh < 1 - 1e-12)):2d}/15 (ep={r_bh.mean():.4f}, well={we_bh:.4f})"
         )
+
+    sub_no_aplc = [e for e in all_ep if e["well"] != "U1513E"]
+    r_no_aplc = np.array([e["scores"]["NARA"]["all"]["rmse"] / e["scores"]["XCORR"]["all"]["rmse"] for e in sub_no_aplc])
+    print(f"\nU1513E-excluded sensitivity (18 endpoints / 12 wells): NARA ep_mean = {r_no_aplc.mean():.4f}")
 
     if args.verify:
         ref = json.loads((REPO / "results/reference_e1_field_13wells.json").read_text(encoding="utf-8"))
-        # Common masks are identical across all non-redundant comparators; verify endpoint RMSE parity directly
         ref_map = {r["case_id"]: r for r in ref}
-        max_diff = max(abs(e["scores"]["NARA"]["all"]["rmse"] - ref_map[e["case_id"]]["scores"]["RA_SNR_HUB_NRGATE"]["all"]["rmse"]) for e in all_ep)
-        print(f"\nParity vs reference archive: max NARA RMSE diff = {max_diff:.3e}")
+        key_map = {
+            "IDENTITY": "IDENTITY",
+            "XCORR": "XCORR",
+            "DTW": "DTW_SLOPE",
+            "RCORR": "RCORR_LENGTH",
+            "Base-0": "BASE_R0",
+            "Base-RA": "BASE_RA",
+            "w/o Broadening": "R0_SNR_HUB",
+            "NARA": "RA_SNR_HUB_NRGATE",
+        }
+        max_rmse_diff = 0.0
+        for e in all_ep:
+            rr = ref_map[e["case_id"]]
+            assert e["common_n"] == rr["common_n"], f"{e['case_id']} common_n mismatch"
+            assert e["screened_n"] == rr["healthy_n"], f"{e['case_id']} screened_n mismatch"
+            for m_new, m_ref in key_map.items():
+                for msk in ("all", "healthy"):
+                    d_rmse = abs(e["scores"][m_new][msk]["rmse"] - rr["scores"][m_ref][msk]["rmse"])
+                    max_rmse_diff = max(max_rmse_diff, d_rmse)
+        assert max_rmse_diff <= 1e-6, f"RMSE parity exceeded tolerance: {max_rmse_diff:.3e}"
+        print(f"Verification PASSED: max RMSE diff across all 7 methods x 19 endpoints = {max_rmse_diff:.3e}")
 
 
 if __name__ == "__main__":

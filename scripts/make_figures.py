@@ -14,7 +14,7 @@ PNG_DIR = REPO / 'figures/previews'
 FIG_DIR.mkdir(parents=True, exist_ok=True)
 PNG_DIR.mkdir(parents=True, exist_ok=True)
 
-# 180 mm double-column figure defaults with editable font output
+# ── MANDATORY nature-figure rcParams ─────────────────────────────────────────
 mpl.rcParams.update({
     'font.family': 'sans-serif',
     'font.sans-serif': ['Arial', 'DejaVu Sans', 'Liberation Sans'],
@@ -36,7 +36,7 @@ mpl.rcParams.update({
     'savefig.facecolor': 'white',
 })
 
-# Low-saturation palette for multi-method comparisons
+# ── Unified Nature / NMI Pastel ML Palette (from references/api.md) ───────────
 P = {
     'blue_main': '#0F4D92',
     'blue_sec':  '#3775BA',
@@ -56,7 +56,7 @@ P = {
     'light':     '#D8D8D8',
     'grid':      '#EAECEF',
 }
-W_DOUBLE = 180.0 / 25.4
+W_DOUBLE = 180.0 / 25.4  # 7.0866 in (Nature double-column standard)
 
 tb = json.loads((OUT_REG / 'reference_table_bundle.json').read_text(encoding='utf-8'))
 syn = json.loads((OUT_REG / 'reference_e2_synthetic_1032.json').read_text(encoding='utf-8'))
@@ -80,7 +80,7 @@ def save_pub(fig, name):
 
 
 # ============================================================
-# Figure 1: Alignment mechanism at Site U1580A
+# FIGURE 1: Hero Mechanism at Site U1580A (180 mm)
 # ============================================================
 def make_fig1():
     z = fc['U1580A_z']
@@ -138,7 +138,7 @@ def make_fig1():
 
 
 # ============================================================
-# Figure 2: NARA two-pass architecture and diagnostic modules
+# FIGURE 2: Clean NMI-Style Modular Pipeline Schematic (180 x 74 mm)
 # ============================================================
 def make_fig2():
     W, H = W_DOUBLE, 74.0 / 25.4
@@ -148,37 +148,37 @@ def make_fig2():
     INK, MUTED, EDGE = '#243B4B', '#5C6F7E', '#CFD9E0'
 
     xs = [0.12, 1.88, 3.64, 5.40]
-    bw, by, bh = 1.54, 1.38, 1.38
+    bw, by, bh = 1.54, 1.38, 1.42
     cards = [
         ('01', 'MAD-Scaled Inputs &\n45-Response Bank', 'sigma in {0..4} samples\na in {0.8, 1.0, 1.2}\nb in {-0.2, 0, +0.2}', '#EFF4F9', P['indigo_mid']),
-        ('02', 'Pass-1 Pilot DP\n(Huber, delta = 1.0)', 'Permissive lam_0 = 0.05\nBounds washout spikes\nMeasures pilot J_data', '#EDF4FB', P['blue_sec']),
-        ('03', 'SNR-Adaptive\nStiffness Rule', 'lam_eff = 0.05 + 15 J_data\nClean logs: lam ~ 0.14\nField logs: 0.53 - 9.51', '#E8F3F1', P['teal']),
-        ('04', 'Pass-2 Exact\nFwd-Bwd Graph DP', 'Optimal (eta*, phi*)\nWhole-map Q_k(v)\nSingle pass (2.7 - 21 s)', '#E9F0F8', P['blue_main']),
+        ('02', 'Pass-1 Pilot DP\n(Huber, delta = 1.0)', 'Pilot lam_0 = 0.05\nBounds spike weight\nExtracts residual J_data', '#EDF4FB', P['blue_sec']),
+        ('03', 'Residual-Adaptive\nStiffness Rule', 'lam_eff = 0.05 + 15 J_data\nSynthetic: lam ~ 0.14\nField: 0.53 - 9.51', '#E8F3F1', P['teal']),
+        ('04', 'Pass-2 Exact\nFwd-Bwd Graph DP', 'Optimal (eta*, phi*)\nCost profile Q_k(v)\nFwd time: 2.7 - 21 s', '#E9F0F8', P['blue_main']),
     ]
     for x, (num, title, body, fill, acc) in zip(xs, cards):
         ax.add_patch(FancyBboxPatch((x, by), bw, bh, boxstyle='round,pad=0,rounding_size=0.06', facecolor=fill, edgecolor=EDGE, lw=0.75, zorder=1))
         ax.add_patch(Rectangle((x + 0.06, by + bh - 0.045), bw - 0.12, 0.045, facecolor=acc, edgecolor='none', zorder=2))
-        ax.text(x + 0.11, by + bh - 0.15, num, fontsize=7.5, fontweight='bold', color=acc, ha='left', va='center')
-        ax.text(x + bw/2, by + bh - 0.41, title, fontsize=7.6, fontweight='bold', color=INK, ha='center', va='center', linespacing=1.2)
-        ax.text(x + bw/2, by + 0.38, body, fontsize=6.5, color=MUTED, ha='center', va='center', linespacing=1.32)
+        ax.text(x + 0.11, by + bh - 0.15, num, fontsize=7.8, fontweight='bold', color=acc, ha='left', va='center')
+        ax.text(x + bw/2, by + bh - 0.41, title, fontsize=8.0, fontweight='bold', color=INK, ha='center', va='center', linespacing=1.18)
+        ax.text(x + bw/2, by + 0.39, body, fontsize=7.0, color=MUTED, ha='center', va='center', linespacing=1.30)
 
     ar_lbls = ['', 'J_data', 'lam_eff']
     for i, (a, b) in enumerate(zip(xs[:-1], xs[1:])):
-        ax.add_patch(FancyArrowPatch((a + bw + 0.02, by + bh/2), (b - 0.02, by + bh/2), arrowstyle='-|>', mutation_scale=8, lw=0.95, color='#6E8290'))
+        ax.add_patch(FancyArrowPatch((a + bw + 0.02, by + bh/2), (b - 0.02, by + bh/2), arrowstyle='-|>', mutation_scale=8.5, lw=1.0, color='#6E8290'))
         if ar_lbls[i]:
-            ax.text((a + bw + b)/2, by + bh/2 + 0.10, ar_lbls[i], fontsize=6.6, fontweight='bold', color=P['blue_main'], ha='center', va='bottom')
+            ax.text((a + bw + b)/2, by + bh/2 + 0.10, ar_lbls[i], fontsize=7.1, fontweight='bold', color=P['blue_main'], ha='center', va='bottom')
 
-    b2y, b2h = 0.16, 0.90
+    b2y, b2h = 0.14, 0.94
     low_cards = [
-        (0.12, 2.22, 'a  Exact Sub-Optimality Audit Q_k(v)', '0.005-sublevel width separates crisp shifts\n(U1611A: 1.26 m) from broad basins\n(U1580A: 5.07 m).', P['lilac_bg'], P['indigo_dark']),
-        (2.50, 2.38, 'b  Two-Way Reciprocity Check', 'Run reversed pass y -> x; fall back to XCORR\nonly when a_fwd = a_rev in {0.8, 1.2}\n(flags U1395B, U1437D).', P['peach_bg'], P['amber']),
-        (5.04, 1.90, 'c  Held-Out Physical Evaluation', 'Maps frozen from GR only;\nevaluate RHOM, DTCO, RLA5,\nAPLC on common/healthy masks.', '#F4F6F8', P['mid']),
+        (0.12, 2.22, 'a  Excess-Cost Profile Q_k(v)', '0.005-sublevel span separates narrow shifts\n(U1611A: 1.26 m) from broad basins\n(U1580A: 5.07 m); pre-gate DP check.', P['lilac_bg'], P['indigo_dark']),
+        (2.50, 2.38, 'b  Two-Way Reciprocity Check', 'Empirical heuristic: run y -> x pass;\nrevert to XCORR if a_fwd = a_rev in {0.8, 1.2}\n(flags U1395B, U1437D).', P['peach_bg'], P['amber']),
+        (5.04, 1.90, 'c  Held-Out Curve Evaluation', 'Freeze GR map; score RHOM,\nDTCO, RLA5 (ohm.m), APLC on\nAll and Screened masks.', '#F4F6F8', P['mid']),
     ]
     for lx, lw, lt, lb, lfill, lacc in low_cards:
         ax.add_patch(FancyBboxPatch((lx, b2y), lw, b2h, boxstyle='round,pad=0,rounding_size=0.05', facecolor=lfill, edgecolor=EDGE, lw=0.7, zorder=1))
         ax.add_patch(Rectangle((lx + 0.06, b2y + b2h - 0.04), lw - 0.12, 0.04, facecolor=lacc, edgecolor='none', zorder=2))
-        ax.text(lx + lw/2, b2y + b2h - 0.19, lt, fontsize=7.0, fontweight='bold', color=INK, ha='center', va='center')
-        ax.text(lx + lw/2, b2y + 0.32, lb, fontsize=6.05, color=MUTED, ha='center', va='center', linespacing=1.28)
+        ax.text(lx + lw/2, b2y + b2h - 0.19, lt, fontsize=7.5, fontweight='bold', color=INK, ha='center', va='center')
+        ax.text(lx + lw/2, b2y + 0.34, lb, fontsize=6.5, color=MUTED, ha='center', va='center', linespacing=1.26)
 
     ax.add_patch(FancyArrowPatch((xs[3] + 0.35, by - 0.02), (1.40, b2y + b2h + 0.02), arrowstyle='-|>', mutation_scale=7.5, lw=0.85, color='#6E8290', connectionstyle='arc3,rad=0.06'))
     ax.add_patch(FancyArrowPatch((xs[3] + 0.77, by - 0.02), (3.69, b2y + b2h + 0.02), arrowstyle='-|>', mutation_scale=7.5, lw=0.85, color='#6E8290'))
@@ -239,18 +239,18 @@ def make_fig3():
     xb = np.arange(len(bnames)); bw = 0.32
     ax.bar(xb - bw/2, [0.2607, 0.2118, 0.1490, 0.1382], width=bw, color=P['red_strong'], alpha=0.85, label='Base-RA')
     ax.bar(xb + bw/2, [syn['summary_b432'][k]['RA_SNR_HUB']['well_equal_mae'] for k in bnames], width=bw, color=P['blue_main'], label='NARA')
-    ax.set_xticks(xb); ax.set_xticklabels(['Zero\n(sig=0)', 'Large', 'Mild', 'Shift\n0.35'], fontsize=6.5)
+    ax.set_xticks(xb); ax.set_xticklabels(['Identity\nwarp', 'Large\nwarp', 'Mild\nwarp', 'Shift\n0.35'], fontsize=6.4)
     ax.set_ylabel('Well-equal MAE (samples)'); ax.set_ylim(0, 0.34)
-    ax.text(2.45, 0.215, '57.9% exact sig=0\non zero-blur cases', fontsize=6.0, color=P['blue_main'], fontweight='bold', ha='center')
+    ax.text(2.25, 0.232, '57.9% exact sig=0\n(n=216 unblurred)', fontsize=5.6, color=P['blue_main'], fontweight='bold', ha='center')
     ax.legend(loc='upper right', fontsize=6.0)
     panel_tag(ax, 'c', x=-0.16, y=1.04)
 
-    fig.tight_layout(w_pad=0.9)
+    fig.tight_layout(w_pad=1.0)
     save_pub(fig, 'figure_3')
 
 
 # ============================================================
-# Figure 4: 13-well (19-endpoint) out-of-sample IODP summary
+# FIGURE 4: Hero 13-Well, 19-Endpoint Out-of-Sample Dumbbell & Summary
 # ============================================================
 def make_fig4():
     fig, axes = plt.subplots(1, 2, figsize=(W_DOUBLE, 4.75), gridspec_kw={'width_ratios': [1.55, 1.05]})
@@ -294,7 +294,7 @@ def make_fig4():
     b_hm = [np.mean([r['healthy_rmse'][k]/r['healthy_rmse']['XCORR'] for r in tb if r['cohort']=='B_eval']) for k in keys]
     xx = np.arange(len(cats)); bw = 0.34
     b1 = ax.bar(xx - bw/2, all_m, width=bw, color=P['indigo_mid'], label='All 19 (full mask)')
-    b2 = ax.bar(xx + bw/2, b_hm, width=bw, color=P['blue_main'], label='Blind B-15 (healthy)')
+    b2 = ax.bar(xx + bw/2, b_hm, width=bw, color=P['blue_main'], label='Blind B-15 (screened)')
     ax.axhline(1.0, color=P['dark'], ls='--', lw=0.85)
     for b in list(b1) + list(b2):
         ax.text(b.get_x() + b.get_width()/2, b.get_height() + 0.004, f'{b.get_height():.3f}',
@@ -338,15 +338,15 @@ def make_fig5():
         axr.grid(axis='y', color=P['grid'], lw=0.6)
         rr, rx, rv, rn = fc[f'{w}_rla_ref'], fc[f'{w}_rla_xc'], fc[f'{w}_rla_v1'], fc[f'{w}_rla_ras']
         m = np.isfinite(rr) & np.isfinite(rx) & np.isfinite(rv) & np.isfinite(rn) & (rr > 0) & (rx > 0) & (rv > 0) & (rn > 0)
-        ex = np.where(m, (np.log10(rx) - np.log10(rr))**2, 0.0)
-        cv = np.cumsum(np.where(m, (np.log10(rv) - np.log10(rr))**2, 0.0) - ex)
-        cn = np.cumsum(np.where(m, (np.log10(rn) - np.log10(rr))**2, 0.0) - ex)
+        ex = np.where(m, (rx - rr)**2, 0.0)
+        cv = np.cumsum(np.where(m, (rv - rr)**2, 0.0) - ex)
+        cn = np.cumsum(np.where(m, (rn - rr)**2, 0.0) - ex)
         axr.axhline(0.0, color=P['mid'], ls='--', lw=0.85)
         axr.fill_between(z, cn, 0.0, where=(cn <= 0), color=P['green_bg'], alpha=0.65)
         axr.fill_between(z, cn, 0.0, where=(cn > 0), color=P['red_bg'], alpha=0.45)
         axr.plot(z, cv, color=P['red_strong'], lw=1.0, label='Base-RA - XCORR')
-        axr.plot(z, cn, color=P['blue_main'], lw=1.35, label='NARA - XCORR')
-        axr.set_ylabel('Cum. dSSE')
+        axr.plot(z, cn, color=P['blue_main'], lw=1.35, label='NARA (DP) - XCORR' if w == 'U1437D' else 'NARA - XCORR')
+        axr.set_ylabel('Cum. dSSE (ohm.m)^2')
         axr.set_title(note, loc='left', fontsize=7.3, pad=3)
         panel_tag(axr, chr(98 + 2*row), x=-0.14, y=1.04)
         if row == 0:
@@ -377,7 +377,7 @@ def make_fig6():
         ax.axhline(0.005, color=P['mid'], ls=':', lw=0.85)
         ax.axvline(fp['mid_opt_m'], color=P['green_pos'], ls='--', lw=1.0)
         ax.set_ylim(-0.001, 0.035); ax.set_xlim(-3.15, 3.15)
-        tag = ' [gate->XCORR]' if w == 'U1437D' else ''
+        tag = ' [rejected DP]' if w == 'U1437D' else ''
         ax.set_title(f"{w}{tag} (lam={fp['lam_eff']:.2f})", loc='left', fontsize=7.6, pad=3)
         ax.text(0.97, 0.90, f"opt={fp['mid_opt_m']:+.2f} m\nw0.005={fp['mid_width_005_m']:.2f} m",
                 transform=ax.transAxes, ha='right', va='top', fontsize=6.2,
@@ -396,10 +396,13 @@ def make_fig6():
 # ============================================================
 def make_fig7():
     S = e4['summary']
-    fig, axes = plt.subplots(2, 2, figsize=(W_DOUBLE, 5.25))
+    fig = plt.figure(figsize=(W_DOUBLE, 5.25))
+    gs_outer = fig.add_gridspec(2, 1, height_ratios=[1.05, 1.0], hspace=0.40)
+    gs_top = gs_outer[0].subgridspec(1, 2, wspace=0.28)
+    gs_bot = gs_outer[1].subgridspec(1, 3, wspace=0.92)
 
     # a: Pareto Frontier Trade-off Scatter (Primary 216 MAE vs Field All-19 Ratio)
-    ax = axes[0, 0]
+    ax = fig.add_subplot(gs_top[0, 0])
     ax.grid(True, color=P['grid'], lw=0.6, zorder=0)
     ax.axhline(1.0, color=P['mid'], ls='--', lw=0.85)
     ax.axhspan(0.98, 1.0, color=P['green_bg'], alpha=0.32, zorder=0)
@@ -407,9 +410,9 @@ def make_fig7():
         ('ABL_Base-RA',         'Base-RA',           P['red_strong'], 'x',  (6,  -2)),
         ('ABL_RA-Fix0.05-Hub',  'w/o Adapt (0.05)',  P['red_strong'], 's',  (6,  -3)),
         ('ABL_RA-Fix2.0-Hub',   'w/o Adapt (2.0)',   P['amber'],      'D',  (-26, -12)),
-        ('ABL_RA-SNR-L2',       'w/o Huber (L2)',    P['indigo_mid'], '^',  (7,   9)),
-        ('ABL_R0-SNR-Hub',      'w/o Response',      P['indigo_dark'],'v',  (0,   7)),
-        ('ABL_RA-SNR-Hub',      'w/o Gate',          P['blue_sec'],   'o',  (8,   3)),
+        ('ABL_RA-SNR-L2',       'w/o Huber (L2)',    P['indigo_mid'], '^',  (10,  11)),
+        ('ABL_R0-SNR-Hub',      'w/o Broadening',    P['indigo_dark'],'v',  (0,   7)),
+        ('ABL_RA-SNR-Hub',      'w/o Gate',          P['blue_sec'],   'o',  (10,  -4)),
         ('ABL_RA-SNR-Hub+Gate', 'NARA (full)',       P['green_pos'],  'P',  (8,  -3)),
     ]
     for key, lbl, col, mk, (dx, dy) in pts:
@@ -426,60 +429,72 @@ def make_fig7():
     ax.set_title('Synthetic vs field ablation trade-off', loc='left', pad=4)
     panel_tag(ax, 'a', x=-0.16, y=1.04)
 
-    # b: SNR slope kappa plateau
-    ax = axes[0, 1]
+    # b: Residual slope kappa plateau
+    ax = fig.add_subplot(gs_top[0, 1])
     ks = [0, 5, 10, 15, 20, 30]
     ax.axvspan(10, 30, color=P['aqua_bg'], alpha=0.5, zorder=0)
     ax.grid(axis='y', color=P['grid'], lw=0.6)
     l1, = ax.plot(ks, [S[f'SEN_KAPPA_{k}']['all19_mean_ratio'] for k in ks], 'o-', color=P['blue_main'], lw=1.3, ms=3.8, label='Field All-19')
-    l2, = ax.plot(ks, [S[f'SEN_KAPPA_{k}']['blind15_hth_mean_ratio'] for k in ks], 's-', color=P['green_pos'], lw=1.3, ms=3.5, label='Blind B-15 healthy')
+    l2, = ax.plot(ks, [S[f'SEN_KAPPA_{k}']['blind15_hth_mean_ratio'] for k in ks], 's-', color=P['green_pos'], lw=1.3, ms=3.5, label='Blind B-15 screened')
     ax.axhline(1.0, color=P['mid'], ls='--', lw=0.8)
     ax.axvline(15, color=P['dark'], ls=':', lw=0.95)
     ax.text(15.6, 1.028, 'Frozen\nkappa=15', fontsize=6.4, color=P['dark'], fontweight='bold')
-    ax.set_ylim(0.955, 1.078); ax.set_xlabel('SNR slope kappa'); ax.set_ylabel('Mean RMSE / XCORR')
+    ax.set_ylim(0.955, 1.078); ax.set_xlabel('Residual slope kappa'); ax.set_ylabel('Mean RMSE / XCORR')
     ax2 = ax.twinx(); ax2.spines['top'].set_visible(False)
     l3, = ax2.plot(ks, [S[f'SEN_KAPPA_{k}']['primary216_mae'] for k in ks], '^--', color=P['red_strong'], lw=1.05, ms=3.5, label='Primary 216 MAE')
     ax2.set_ylim(0.18, 0.23); ax2.set_ylabel('Primary 216 MAE (samples)', fontsize=6.8)
-    ax.legend([l1, l2, l3], [l.get_label() for l in (l1, l2, l3)], loc='upper right', fontsize=6.0)
-    ax.set_title('SNR-slope kappa operating plateau', loc='left', pad=4)
+    ax.legend([l1, l2, l3], [l.get_label() for l in (l1, l2, l3)], loc='upper right', fontsize=5.8)
+    ax.set_title('Residual-slope kappa plateau (un-gated core)', loc='left', pad=4)
     panel_tag(ax, 'b', x=-0.16, y=1.04)
 
-    # c: Huber threshold delta risk vs mean ratio
-    ax = axes[1, 0]
+    # c: Huber threshold delta stability
+    ax = fig.add_subplot(gs_bot[0, 0])
     ax.grid(axis='y', color=P['grid'], lw=0.6, zorder=0)
-    dlbls = ['0.5', '1.0', '1.5', '2.0', 'inf (L2)']
+    dlbls = ['0.5', '1.0', '1.5', '2.0', 'inf']
     dkeys = ['SEN_DELTA_0.5', 'SEN_DELTA_1.0', 'SEN_DELTA_1.5', 'SEN_DELTA_2.0', 'SEN_DELTA_inf']
     xd = np.arange(len(dlbls))
-    la, = ax.plot(xd, [S[k]['all19_mean_ratio'] for k in dkeys], 'o-', color=P['blue_main'], lw=1.35, ms=4.2, label='All-19 mean RMSE/XC', zorder=4)
+    la, = ax.plot(xd, [S[k]['all19_mean_ratio'] for k in dkeys], 'o-', color=P['blue_main'], lw=1.35, ms=3.8, label='All-19 mean', zorder=4)
     ax.axhline(1.0, color=P['mid'], ls='--', lw=0.8)
-    ax.set_ylim(0.992, 1.012); ax.set_xticks(xd); ax.set_xticklabels(dlbls)
-    ax.set_xlabel('Huber threshold delta (MAD units)'); ax.set_ylabel('All-19 Mean RMSE / XCORR')
+    ax.set_ylim(0.992, 1.012); ax.set_xticks(xd); ax.set_xticklabels(dlbls, fontsize=6.4)
+    ax.set_xlabel('Huber delta (MAD)'); ax.set_ylabel('All-19 RMSE / XC')
     ax2 = ax.twinx(); ax2.spines['top'].set_visible(False)
-    lb = ax2.bar(xd, [S[k]['all19_gt5'] for k in dkeys], width=0.34, color=P['red_bg'], edgecolor=P['red_strong'], lw=0.7, alpha=0.85, label='Count >5% worse', zorder=1)
-    ax2.set_ylim(0, 9); ax2.set_ylabel('Endpoints >5% worse', color=P['red_strong'])
-    ax.legend([la, lb], ['All-19 mean RMSE/XC', 'Count >5% worse'], loc='upper left', fontsize=6.0)
-    ax.set_title('Huber delta stability vs tail-risk control', loc='left', pad=4)
-    panel_tag(ax, 'c', x=-0.16, y=1.04)
+    lb = ax2.bar(xd, [S[k]['all19_gt5'] for k in dkeys], width=0.38, color=P['red_bg'], edgecolor=P['red_strong'], lw=0.7, alpha=0.85, label='>5% count', zorder=1)
+    ax2.set_ylim(0, 9); ax2.set_ylabel('>5% worse', color=P['red_strong'], fontsize=6.6)
+    ax.legend([la, lb], ['All-19 mean', '>5% count'], loc='upper left', fontsize=5.6)
+    ax.set_title('Huber delta', loc='left', pad=4)
+    panel_tag(ax, 'c', x=-0.24, y=1.04)
 
-    # d: Pilot lam0 & Discretization trade-off
-    ax = axes[1, 1]
+    # d: Pilot stiffness lam0 standalone axis
+    ax = fig.add_subplot(gs_bot[0, 1])
     ax.grid(axis='y', color=P['grid'], lw=0.6, zorder=0)
     l0s = ['0.01', '0.05', '0.10', '0.20']
-    discs = [('(10,0.25)', 'SEN_DISC_10_0.25'), ('(20,0.25)', 'SEN_DISC_20_0.25'), ('(40,0.25)', 'SEN_DISC_40_0.25'), ('(20,0.50)', 'SEN_DISC_20_0.50')]
-    x4 = np.arange(4); w = 0.34
-    bd = ax.bar(x4 - w/2, [S[k]['primary216_mae'] for _, k in discs], width=w, color=P['indigo_mid'], alpha=0.88, label='Grid (h,dg) Prim MAE')
-    lp, = ax.plot(x4 + w/2, [S[f'SEN_LAM0_{k}']['primary216_mae'] for k in l0s], 's-', color=P['green_pos'], lw=1.25, ms=3.8, label='Pilot lam0 Prim MAE')
-    ax.set_ylim(0.16, 0.295); ax.set_xticks(x4)
-    ax.set_xticklabels([f"{a}\nlam0={b}" for (a, _), b in zip(discs, l0s)], fontsize=6.4)
-    ax.set_ylabel('Primary 216 MAE (samples)')
+    x_l = np.arange(len(l0s))
+    lp1, = ax.plot(x_l, [S[f'SEN_LAM0_{k}']['primary216_mae'] for k in l0s], 's-', color=P['green_pos'], lw=1.3, ms=3.6, label='Prim 216 MAE')
+    lp2, = ax.plot(x_l, [S[f'SEN_LAM0_{k}']['box54_mae'] for k in l0s], 'o--', color=P['indigo_dark'], lw=1.1, ms=3.4, label='Box 54 MAE')
+    ax.set_ylim(0.155, 0.225); ax.set_xticks(x_l); ax.set_xticklabels(l0s, fontsize=6.4)
+    ax.set_xlabel('Pilot stiffness lam0'); ax.set_ylabel('MAE (samples)')
     ax2 = ax.twinx(); ax2.spines['top'].set_visible(False)
-    lf, = ax2.plot(x4, [S[k]['all19_mean_ratio'] for _, k in discs], 'd--', color=P['amber'], lw=1.15, ms=4.2, label='Grid All-19 RMSE/XC')
-    ax2.set_ylim(0.985, 1.015); ax2.set_ylabel('All-19 RMSE / XCORR', color=P['amber'])
-    ax.legend([bd, lp, lf], [bd.get_label(), lp.get_label(), lf.get_label()], loc='upper left', fontsize=5.9)
-    ax.set_title('Pilot lam0 and graph discretisation trade-off', loc='left', pad=4)
-    panel_tag(ax, 'd', x=-0.16, y=1.04)
+    lp3, = ax2.plot(x_l, [S[f'SEN_LAM0_{k}']['blind15_hth_mean_ratio'] for k in l0s], 'd:', color=P['blue_main'], lw=1.1, ms=3.6, label='B-15 scr')
+    ax2.set_ylim(0.975, 0.995); ax2.set_ylabel('B-15 RMSE/XC', fontsize=6.5, color=P['blue_main'])
+    ax.legend([lp1, lp2, lp3], ['Prim 216', 'Box 54', 'B-15 scr'], loc='upper left', fontsize=5.5)
+    ax.set_title('Pilot lam0 stability', loc='left', pad=4)
+    panel_tag(ax, 'd', x=-0.24, y=1.04)
 
-    fig.tight_layout(h_pad=1.05, w_pad=1.15)
+    # e: Graph discretisation (h, dg) standalone axis
+    ax = fig.add_subplot(gs_bot[0, 2])
+    ax.grid(axis='y', color=P['grid'], lw=0.6, zorder=0)
+    discs = [('(10,0.25)', 'SEN_DISC_10_0.25'), ('(20,0.25)', 'SEN_DISC_20_0.25'), ('(40,0.25)', 'SEN_DISC_40_0.25'), ('(20,0.50)', 'SEN_DISC_20_0.50')]
+    x_d = np.arange(len(discs))
+    bd = ax.bar(x_d, [S[k]['primary216_mae'] for _, k in discs], width=0.45, color=P['indigo_mid'], alpha=0.88, label='Prim 216 MAE')
+    ax.set_ylim(0.16, 0.275); ax.set_xticks(x_d); ax.set_xticklabels(['10, 0.25', '20, 0.25', '40, 0.25', '20, 0.50'], fontsize=5.9, rotation=15)
+    ax.set_xlabel('Grid (h, dg)'); ax.set_ylabel('Primary 216 MAE')
+    ax2 = ax.twinx(); ax2.spines['top'].set_visible(False)
+    lf, = ax2.plot(x_d, [S[k]['all19_mean_ratio'] for _, k in discs], 'd--', color=P['amber'], lw=1.15, ms=3.8, label='All-19')
+    ax2.set_ylim(0.985, 1.015); ax2.set_ylabel('All-19 RMSE/XC', fontsize=6.5, color=P['amber'])
+    ax.legend([bd, lf], ['Prim 216', 'All-19'], loc='upper left', fontsize=5.5)
+    ax.set_title('Discretisation knee', loc='left', pad=4)
+    panel_tag(ax, 'e', x=-0.24, y=1.04)
+
     save_pub(fig, 'figure_7')
 
 
@@ -491,4 +506,4 @@ if __name__ == '__main__':
     make_fig5()
     make_fig6()
     make_fig7()
-    print('Exported figure_1..figure_7 (PDF, SVG, and PNG) to figures/.')
+    print('All 7 figures exported (PDF + SVG + PNG).')
