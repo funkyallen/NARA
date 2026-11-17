@@ -523,7 +523,7 @@ def make_fig5():
     wells = [
         ('U1611A', '568', 'U1611A RLA5: 0.3410 -> 0.3189 (beats RCORR 0.3265)'),
         ('U1467E', '755', 'U1467E RLA5: smooth run (RCORR 0.1205 vs NARA 0.1265)'),
-        ('U1437D', '1135', 'U1437D [rejected DP]: bilateral a=0.8 triggers XCORR'),
+        ('U1437D', '1135', 'U1437D (gate-rejected DP): bilateral a=0.8 triggers XCORR'),
     ]
     for row, (w, nstr, note) in enumerate(wells):
         z = fc[f'{w}_z']
@@ -581,7 +581,7 @@ def make_fig6():
         ax.axhline(0.005, color=P['mid'], ls=':', lw=0.85)
         ax.axvline(fp['mid_opt_m'], color=P['green_pos'], ls='--', lw=1.0)
         ax.set_ylim(-0.001, 0.038); ax.set_xlim(-3.15, 3.15)
-        tag = ' [rejected DP]' if w == 'U1437D' else ''
+        tag = ' (gate-rejected DP)' if w == 'U1437D' else ''
         ax.set_title(f"{w}{tag} ($\lambda={fp['lam_eff']:.2f}$)", loc='left', fontsize=7.5, pad=3)
         wstr = f"$w_{{0.005}}={fp['mid_width_005_m']:.2f}\\,$m"
         if w == 'U1611A':

@@ -86,7 +86,7 @@ def main():
         d = np.load(REPO / "data/field_iodp_13wells" / f"{well}.npz")
         r = check_signal(well, d["x_full"], d["y"], band=20.0, sublevel_th=0.005)
         field_out[well] = r
-        tag = " [rejected DP]" if well == "U1437D" else ""
+        tag = " (gate-rejected DP)" if well == "U1437D" else ""
         print(
             f"{well + tag:<22} | K={r['K']:3d} | lam={r['lam_eff']:5.2f} | "
             f"d_mid={r['d_mid_m']:+5.2f}m w0.005={r['width_m']:4.2f}m | "

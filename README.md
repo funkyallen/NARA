@@ -39,8 +39,26 @@ pip install -e .
 Pass any two depth-indexed gamma-ray CSV files (`depth_m, gr`) in native metre and `gAPI` units. The CLI resamples onto the common grid, adds the required 40-sample reference halos and 30-sample target margins, applies shared-reference `scale_pair` MAD normalisation, executes NARA with reciprocity checking, and exports aligned depths plus `Q_k(v)` diagnostics:
 
 ```bash
-nara-align --ref pass1.csv --tar pass2.csv --out pass2_aligned.csv --band-m 3.048
+nara-align --ref examples/u1445a_ref_gr.csv --tar examples/u1445a_tar_gr.csv --out u1445a_aligned.csv --band-m 3.048
 ```
+
+Verified output on the bundled raw `U1445A` sample (`gAPI` scale):
+
+```json
+{
+  "n_core": 1940,
+  "step_m": 0.1524000000000001,
+  "lam_eff": 1.7353,
+  "j_data_pilot": 0.11235,
+  "model_sigma_a_b": [2.0, 1.0, 0.0],
+  "rev_model_sigma_a_b": [2.0, 1.0, -0.2],
+  "gate_triggered": false,
+  "mid_width_005_m": 3.657600000000002,
+  "mid_width_norm_m": 5.334000000000003
+}
+```
+
+Aligned CSV columns (`u1445a_aligned.csv`): `depth_m,ref_gr,aligned_tar_depth_m,shift_m,aligned_tar_gr`.
 
 ### Option B: Python API (`align_raw_curves` vs Core `align_nara`)
 
