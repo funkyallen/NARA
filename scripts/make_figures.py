@@ -5,7 +5,8 @@ import numpy as np
 import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Rectangle
+from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Rectangle, Circle, Polygon
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 REPO = Path(__file__).resolve().parents[1]
 OUT_REG = REPO / 'results'
@@ -73,7 +74,7 @@ def save_pub(fig, name):
     fig.canvas.draw()
     fig.savefig(FIG_DIR / f'{name}.pdf', bbox_inches='tight', pad_inches=0.04)
     fig.savefig(FIG_DIR / f'{name}.svg', bbox_inches='tight', pad_inches=0.04)
-    fig.savefig(PNG_DIR / f'{name}.png', dpi=260, bbox_inches='tight', pad_inches=0.04)
+    fig.savefig(PNG_DIR / f'{name}.png', dpi=400, bbox_inches='tight', pad_inches=0.04)
     plt.close(fig)
 
 
@@ -153,55 +154,236 @@ def make_fig1():
 # ============================================================
 # FIGURE 2: Clean Modular Pipeline Schematic (180 x 74 mm)
 # ============================================================
+# FIGURE 2: Architecture of NARA (Modular Schematic + Embedded Analytical Sub-Panels)
+# ============================================================
 def make_fig2():
-    W, H = W_DOUBLE, 74.0 / 25.4
+    W, H = 7.40, 4.35
     fig = plt.figure(figsize=(W, H))
     ax = fig.add_axes([0, 0, 1, 1])
     ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis('off')
-    INK, MUTED, EDGE = '#243B4B', '#5C6F7E', '#CFD9E0'
 
-    xs = [0.12, 1.88, 3.64, 5.40]
-    bw, by, bh = 1.54, 1.38, 1.42
-    cards = [
-        ('01', 'MAD-Scaled Inputs &\n45-Response Bank', r'$\sigma \in \{0..4\}$ samples' + '\n' + r'$a \in \{0.8, 1.0, 1.2\}$' + '\n' + r'$b \in \{-0.2, 0, +0.2\}$', '#EFF4F9', P['indigo_mid']),
-        ('02', 'Pass-1 Pilot DP\n(Huber, ' + r'$\delta = 1.0$)', r'Pilot $\lambda_0 = 0.05$' + '\nBounds spike weight\n' + r'Extracts residual $J_{\mathrm{data}}$', '#EDF4FB', P['blue_sec']),
-        ('03', 'Residual-Adaptive\nStiffness Rule', r'$\lambda_{\mathrm{eff}} = 0.05 + 15 J_{\mathrm{data}}$' + '\n' + r'Synthetic: $\lambda \approx 0.14$' + '\nField: $0.53 - 9.51$', '#E8F3F1', P['teal']),
-        ('04', 'Pass-2 Exact\nFwd-Bwd Graph DP', r'Optimal $(\eta^*, \phi^*)$' + '\n' + r'Cost profile $Q_k(v)$' + '\nFwd time: $2.7 - 21\\,$s', '#EBF3FA', P['blue_main']),
-    ]
-    for x0, (num, title, body, bg, accent) in zip(xs, cards):
-        ax.add_patch(FancyBboxPatch((x0, by), bw, bh, boxstyle='round,pad=0.02,rounding_size=0.07',
-                                    fc=bg, ec=EDGE, lw=0.9))
-        ax.add_patch(Rectangle((x0 + 0.06, by + bh - 0.045), bw - 0.12, 0.042, fc=accent, ec='none'))
-        ax.text(x0 + 0.10, by + bh - 0.17, num, fontsize=8.0, fontweight='bold', color=accent, va='center')
-        ax.text(x0 + bw / 2, by + bh - 0.43, title, ha='center', va='center', fontsize=7.6, fontweight='bold', color=INK, linespacing=1.18)
-        ax.text(x0 + bw / 2, by + 0.40, body, ha='center', va='center', fontsize=6.5, color=MUTED, linespacing=1.28)
+    # Harmonised pastel & crisp accent palette
+    INK = '#222E3A'
+    MUTED = '#526270'
+    C_CREAM_BG, C_CREAM_EC = '#FDF8E2', '#CFA43A'
+    C_LAV_BG, C_LAV_EC     = '#F3F0FC', '#8F7EC8'
+    C_SAGE_BG, C_SAGE_EC   = '#EFF6F0', '#639363'
+    C_ROSE_BG, C_ROSE_EC   = '#FAF0F0', '#B97474'
+    C_SKY_BG, C_SKY_EC     = '#ECF5FD', '#3E6EC8'
+    C_SLATE_BG, C_SLATE_EC = '#F4F5F7', '#8A95A5'
+    AC_BLUE   = '#3E6EC8'
+    AC_EMERALD= '#109E6B'
+    AC_CRIMSON= '#B00030'
+    AC_PEACH  = '#D97236'
 
-    for i in range(3):
-        x_a, x_b = xs[i] + bw + 0.04, xs[i + 1] - 0.04
-        ym = by + bh / 2
-        ax.add_patch(FancyArrowPatch((x_a, ym), (x_b, ym), arrowstyle='-|>', mutation_scale=9, lw=1.15, color='#6A7F8D'))
-        if i == 1:
-            ax.text((x_a + x_b) / 2, ym + 0.16, r'$J_{\mathrm{data}}$', ha='center', fontsize=7.0, fontweight='bold', color=P['blue_main'])
-        elif i == 2:
-            ax.text((x_a + x_b) / 2, ym + 0.16, r'$\lambda_{\mathrm{eff}}$', ha='center', fontsize=7.0, fontweight='bold', color=P['blue_main'])
+    def rbox(x, y, w, h, fc='#FFFFFF', ec='#CBD4DC', lw=0.9, ls='-', r=0.07, zorder=2):
+        p = FancyBboxPatch((x, y), w, h, boxstyle=f'round,pad=0.0,rounding_size={r}',
+                           fc=fc, ec=ec, lw=lw, ls=ls, zorder=zorder)
+        ax.add_patch(p)
+        return p
 
-    bxs = [0.12, 2.46, 4.96]
-    bws = [2.18, 2.34, 1.98]
-    b_cards = [
-        ('a   Excess-Cost Profile $Q_k(v)$', '$0.005$-sublevel span separates narrow shifts\n(U1611A: $1.26\\,$m) from broad basins\n(U1580A: $5.07\\,$m); pre-gate DP check.', P['lilac_bg'], P['indigo_dark']),
-        ('b   Two-Way Reciprocity Check', 'Empirical heuristic: run $y \\rightarrow x$ pass;\nrevert to XCORR if $a_{\\mathrm{fwd}} = a_{\\mathrm{rev}} \\in \\{0.8, 1.2\\}$\n(flags U1395B, U1437D).', P['peach_bg'], P['amber']),
-        ('c   Held-Out Curve Evaluation', 'Freeze GR map; score RHOM,\n' + r'DTCO, RLA5 ($\Omega\cdot\mathrm{m}$ & $\log_{10}$), APLC' + '\non All and Screened masks.', '#F3F5F7', P['mid']),
-    ]
-    for x0, w0, (title, body, bg, accent) in zip(bxs, bws, b_cards):
-        ax.add_patch(FancyBboxPatch((x0, 0.10), w0, 0.96, boxstyle='round,pad=0.02,rounding_size=0.07',
-                                    fc=bg, ec=EDGE, lw=0.9))
-        ax.add_patch(Rectangle((x0 + 0.06, 1.02), w0 - 0.12, 0.040, fc=accent, ec='none'))
-        ax.text(x0 + w0 / 2, 0.87, title, ha='center', va='center', fontsize=7.3, fontweight='bold', color=INK)
-        ax.text(x0 + w0 / 2, 0.42, body, ha='center', va='center', fontsize=6.35, color=MUTED, linespacing=1.24)
+    def arrow(x1, y1, x2, y2, col='#4C5B68', lw=1.05, rad=0.0, ls='-', ms=8.5, zorder=5):
+        arr = FancyArrowPatch((x1, y1), (x2, y2),
+                              connectionstyle=f'arc3,rad={rad}',
+                              arrowstyle='-|>', mutation_scale=ms,
+                              lw=lw, ls=ls, color=col, zorder=zorder)
+        ax.add_patch(arr)
 
-    for tx, rad in [(1.25, 0.06), (3.70, 0.02), (6.05, -0.02)]:
-        ax.add_patch(FancyArrowPatch((6.18, by - 0.04), (tx, 1.11),
-                                     connectionstyle=f'arc3,rad={rad}', arrowstyle='-|>', mutation_scale=8.5, lw=1.0, color='#6A7F8D'))
+    def elbow(pts, col='#4C5B68', lw=1.05, ms=8.5, zorder=5):
+        xs_p = [p[0] for p in pts]
+        ys_p = [p[1] for p in pts]
+        if len(pts) > 2:
+            ax.plot(xs_p[:-1], ys_p[:-1], color=col, lw=lw, solid_joinstyle='round', zorder=zorder)
+        arrow(xs_p[-2], ys_p[-2], xs_p[-1], ys_p[-1], col=col, lw=lw, ms=ms, zorder=zorder)
+
+    def tag_pill(x, y, txt, fc, tc='#FFFFFF'):
+        rbox(x, y, 0.22, 0.16, fc=fc, ec='none', r=0.04, zorder=6)
+        ax.text(x + 0.11, y + 0.08, txt, ha='center', va='center', fontsize=5.2, fontweight='bold', color=tc, zorder=7)
+
+    # ---- Left Outer Dashed Container: (a) Overall NARA Solver ----
+    rbox(0.06, 0.24, 4.76, 4.04, fc='#FFFFFF', ec=C_ROSE_EC, lw=1.15, ls='--', r=0.10, zorder=1)
+    ax.text(2.44, 0.08, '(a) Overall NARA Alignment Pipeline', ha='center', va='center',
+            fontsize=8.2, fontweight='bold', color=INK)
+
+    # Dashed Internal Module Zones with crisp breathing corridors between zones
+    rbox(0.16, 2.94, 4.56, 1.24, fc=C_LAV_BG,   ec=C_LAV_EC,   lw=0.95, ls='--', r=0.08, zorder=1.5)
+    rbox(0.16, 1.62, 4.56, 1.13, fc=C_CREAM_BG, ec=C_CREAM_EC, lw=0.95, ls='--', r=0.08, zorder=1.5)
+    rbox(0.16, 0.32, 4.56, 1.13, fc=C_SKY_BG,   ec=C_SKY_EC,   lw=0.95, ls='--', r=0.08, zorder=1.5)
+
+    # Zone headers
+    ax.text(0.24, 4.08, '1. Shared Normalisation & 45-Member Response Dictionary', fontsize=6.9, fontweight='bold', color='#5A4999', zorder=3)
+    ax.text(0.62, 2.65, '2. Pass-1 Pilot DP & Residual-Adaptive Stiffness Bridge', fontsize=6.9, fontweight='bold', color='#8F6B14', zorder=3)
+    ax.text(0.62, 1.35, '3. Pass-2 Forward-Backward DP, Reciprocity Gate & Multi-Scale Transfer', fontsize=6.9, fontweight='bold', color=AC_BLUE, zorder=3)
+
+    # ---- Zone 1 cards ----
+    rbox(0.24, 3.03, 1.24, 0.94, fc='#FFFFFF', ec='#D2CCE6', lw=0.85, r=0.05, zorder=2.5)
+    ax.text(0.86, 3.88, 'Raw GR Passes', ha='center', va='center', fontsize=6.5, fontweight='bold', color=INK, zorder=4)
+    iax_in = ax.inset_axes([0.29, 3.21, 1.14, 0.54], transform=ax.transData, zorder=4)
+    zt = np.linspace(0, 1, 90)
+    xr = 0.45*np.sin(2.5*np.pi*zt) + 0.35*np.exp(-((zt-0.36)/0.07)**2) + 0.42*np.exp(-((zt-0.72)/0.08)**2)
+    yt = 0.40*np.sin(2.5*np.pi*(zt-0.05)) + 0.32*np.exp(-((zt-0.41)/0.10)**2) + 0.38*np.exp(-((zt-0.77)/0.10)**2)
+    yt[51:55] += 0.95
+    iax_in.plot(zt, xr, color=AC_BLUE, lw=1.0)
+    iax_in.plot(zt, yt, color=AC_PEACH, lw=0.9)
+    iax_in.scatter([zt[53]], [yt[53]], color=AC_CRIMSON, s=11, zorder=5)
+    iax_in.set_xticks([]); iax_in.set_yticks([])
+    for sp in iax_in.spines.values():
+        sp.set_edgecolor('#D8DCE2'); sp.set_linewidth(0.5)
+    ax.text(0.86, 3.11, r'$x_{\mathrm{ref}}, y_{\mathrm{tar}}$ (+ spike)', ha='center', va='center', fontsize=5.5, color=MUTED, zorder=4)
+
+    rbox(1.66, 3.14, 0.90, 0.72, fc='#FFFFFF', ec='#D2CCE6', lw=0.85, r=0.05, zorder=2.5)
+    ax.text(2.11, 3.72, 'MAD Scale', ha='center', va='center', fontsize=6.4, fontweight='bold', color=INK, zorder=4)
+    ax.text(2.11, 3.48, 'scale_pair', ha='center', va='center', fontsize=5.9, color=AC_BLUE, fontweight='bold', zorder=4)
+    ax.text(2.11, 3.28, 'Shared ref.\nmed & MAD', ha='center', va='center', fontsize=5.3, color=MUTED, linespacing=1.1, zorder=4)
+
+    rbox(2.74, 3.03, 1.88, 0.94, fc='#FFFFFF', ec='#D2CCE6', lw=0.85, r=0.05, zorder=2.5)
+    ax.text(3.68, 3.88, r'45-Template Bank $r_\eta(z)$', ha='center', va='center', fontsize=6.5, fontweight='bold', color=INK, zorder=4)
+    token_cols = ['#F8E8A4', '#98B898', '#90C0E8', '#D8D0F0', '#F7A878']
+    for idx_t, tc in enumerate(token_cols):
+        tx = 2.84 + idx_t * 0.21
+        rbox(tx, 3.53, 0.17, 0.23, fc=tc, ec='#8894A0', lw=0.5, r=0.03, zorder=4)
+        ax.text(tx + 0.085, 3.645, str(idx_t), ha='center', va='center', fontsize=5.3, fontweight='bold', color=INK, zorder=5)
+    ax.text(4.24, 3.645, r'$\sigma\in\{0..4\}$', ha='center', va='center', fontsize=5.7, color=INK, zorder=4)
+    iax_bk = ax.inset_axes([2.84, 3.10, 0.88, 0.37], transform=ax.transData, zorder=4)
+    zb = np.linspace(-3, 3, 60)
+    for idx_s, sig_v in enumerate([0.35, 0.65, 1.05, 1.45]):
+        iax_bk.plot(zb, np.exp(-0.5*(zb/sig_v)**2), lw=0.95, color=['#3E6EC8', '#109E6B', '#D8A21A', '#D97236'][idx_s])
+    iax_bk.set_xticks([]); iax_bk.set_yticks([])
+    for sp in iax_bk.spines.values(): sp.set_visible(False)
+    ax.text(4.15, 3.30, r'$a\in\{0.8,1.0,1.2\}$' + '\n' + r'$b\in\{-0.2,0,0.2\}$', ha='center', va='center',
+            fontsize=5.4, color=MUTED, linespacing=1.2, zorder=4)
+
+    arrow(1.48, 3.50, 1.66, 3.50, col=MUTED)
+    arrow(2.56, 3.50, 2.74, 3.50, col=MUTED)
+
+    # ---- Zone 2 cards ----
+    rbox(0.24, 1.71, 1.24, 0.82, fc='#FFFFFF', ec='#DFCA82', lw=0.85, r=0.05, zorder=2.5)
+    ax.text(0.75, 2.41, r'Edge Tables $D_e$', ha='center', va='center', fontsize=6.4, fontweight='bold', color=INK, zorder=4)
+    tag_pill(1.23, 2.33, 'b', C_SAGE_EC)
+    grid_cols = [['#F8E8A4', '#90C0E8', '#98B898'], ['#D8D0F0', '#F7A878', '#F8E8A4'], ['#98B898', '#90C0E8', '#D8D0F0']]
+    for r_i in range(3):
+        for c_i in range(3):
+            ax.add_patch(Rectangle((0.36 + c_i*0.16, 1.83 + r_i*0.14), 0.14, 0.12,
+                                   fc=grid_cols[r_i][c_i], ec='#9AA6B2', lw=0.4, zorder=4))
+    ax.text(1.16, 2.04, r'$\rho_\delta(\varepsilon)$' + '\n' + r'$\delta=1.0$', ha='center', va='center', fontsize=5.7, color=INK, linespacing=1.18, zorder=4)
+
+    rbox(1.68, 1.71, 1.26, 0.82, fc='#FFFFFF', ec='#DFCA82', lw=0.85, r=0.05, zorder=2.5)
+    ax.text(2.31, 2.41, 'Pass-1 Pilot DP', ha='center', va='center', fontsize=6.4, fontweight='bold', color=INK, zorder=4)
+    ax.text(2.31, 2.15, r'$\lambda_0 = 0.05$', ha='center', va='center', fontsize=6.2, fontweight='bold', color=AC_PEACH, zorder=4)
+    ax.text(2.31, 1.88, r'Extracts $(\eta_1, p_1)$' + '\n' + r'$\rightarrow J_{\mathrm{data}}$', ha='center', va='center', fontsize=5.5, color=MUTED, linespacing=1.18, zorder=4)
+
+    rbox(3.14, 1.71, 1.48, 0.82, fc='#FFFDF4', ec=C_CREAM_EC, lw=1.0, r=0.05, zorder=2.5)
+    ax.text(3.88, 2.41, 'Adaptive Stiffness', ha='center', va='center', fontsize=6.4, fontweight='bold', color='#8F6B14', zorder=4)
+    rbox(3.24, 2.10, 1.28, 0.21, fc='#F8E8A4', ec='#C9A338', lw=0.6, r=0.04, zorder=3.5)
+    ax.text(3.88, 2.205, r'$\lambda_{\mathrm{eff}} = 0.05 + 15\,J_{\mathrm{data}}$', ha='center', va='center', fontsize=5.9, fontweight='bold', color=INK, zorder=4.5)
+    ax.text(3.88, 1.88, 'Clean syn.: ~0.14 (flex)\nField IODP: 0.53–9.51 (stiff)', ha='center', va='center', fontsize=5.3, color=MUTED, linespacing=1.18, zorder=4)
+
+    # Clean orthogonal corridor connection Zone 1 -> Zone 2
+    elbow([(3.68, 3.03), (3.68, 2.84), (0.44, 2.84), (0.44, 2.53)], col='#6353A3', lw=1.0)
+    ax.text(2.15, 2.84, r'Builds Huber edge tables $D_e$', ha='center', va='center', fontsize=5.4, fontweight='bold', color='#5A4999',
+            bbox=dict(boxstyle='round,pad=0.10', fc='#FFFFFF', ec='none'), zorder=6)
+    arrow(1.48, 2.12, 1.68, 2.12, col=MUTED)
+    arrow(2.94, 2.12, 3.14, 2.12, col=AC_PEACH)
+    ax.text(3.04, 2.24, r'$J_{\mathrm{data}}$', ha='center', va='center', fontsize=5.5, fontweight='bold', color=AC_PEACH, zorder=6)
+
+    # ---- Zone 3 cards ----
+    rbox(0.24, 0.41, 1.72, 0.82, fc='#FFFFFF', ec='#9BBCE6', lw=0.95, r=0.05, zorder=2.5)
+    ax.text(0.98, 1.12, 'Pass-2 Exact Fwd–Bwd DP', ha='center', va='center', fontsize=6.35, fontweight='bold', color=AC_BLUE, zorder=4)
+    tag_pill(1.71, 1.04, 'c', C_LAV_EC)
+    ax.text(1.10, 0.88, r'Fwd $F_k(m,v)\rightarrow$   $\leftarrow$Bwd $B_k(m,v)$', ha='center', va='center', fontsize=5.65, color=INK, zorder=4)
+    ax.text(1.10, 0.61, r'Reuses $D_e$ tables at $\lambda_{\mathrm{eff}}$' + '\n' + r'Optimum $(\eta^*, \phi^*)$ & $Q_k(v)$', ha='center', va='center', fontsize=5.5, color=MUTED, linespacing=1.18, zorder=4)
+
+    rbox(2.14, 0.41, 1.24, 0.82, fc='#FFFFFF', ec='#9BBCE6', lw=0.85, r=0.05, zorder=2.5)
+    ax.text(2.66, 1.12, 'Reciprocity Gate', ha='center', va='center', fontsize=6.35, fontweight='bold', color=INK, zorder=4)
+    tag_pill(3.13, 1.04, 'd', '#CE8A54')
+    rbox(2.22, 0.80, 1.08, 0.21, fc='#FADBD8', ec=AC_CRIMSON, lw=0.55, r=0.03, zorder=3.5)
+    ax.text(2.76, 0.905, r'$a_{\mathrm{fwd}}=a_{\mathrm{rev}}\in\{0.8,1.2\}$', ha='center', va='center', fontsize=5.35, color=AC_CRIMSON, fontweight='bold', zorder=4.5)
+    ax.text(2.76, 0.59, r'Locked $\rightarrow$ XCORR' + '\n' + r'Unblocked $\rightarrow$ NARA', ha='center', va='center', fontsize=5.4, color=MUTED, linespacing=1.18, zorder=4)
+
+    rbox(3.56, 0.41, 1.06, 0.82, fc='#F0FAF4', ec=AC_EMERALD, lw=0.95, r=0.05, zorder=2.5)
+    ax.text(4.09, 1.12, 'Deployment & QA', ha='center', va='center', fontsize=6.3, fontweight='bold', color=AC_EMERALD, zorder=4)
+    ax.text(4.09, 0.84, 'Transfer map to\nRHOM / DTCO\nRLA5 / APLC', ha='center', va='center', fontsize=5.4, color=INK, linespacing=1.15, zorder=4)
+    rbox(3.66, 0.47, 0.86, 0.165, fc='#DDF3E4', ec=AC_EMERALD, lw=0.5, r=0.03, zorder=3.5)
+    ax.text(4.09, 0.552, 'nara-align CLI', ha='center', va='center', fontsize=5.25, fontweight='bold', color='#0B6E4A', zorder=4.5)
+
+    # Clean orthogonal corridor connection Zone 2 -> Zone 3
+    elbow([(3.88, 1.71), (3.88, 1.54), (0.44, 1.54), (0.44, 1.23)], col=AC_BLUE, lw=1.05)
+    ax.text(2.16, 1.54, r'Updates stiffness $\lambda_{\mathrm{eff}}$ for exact Pass-2 DP', ha='center', va='center', fontsize=5.4, fontweight='bold', color=AC_BLUE,
+            bbox=dict(boxstyle='round,pad=0.10', fc='#FFFFFF', ec='none'), zorder=6)
+    arrow(1.96, 0.82, 2.14, 0.82, col=MUTED)
+    arrow(3.38, 0.82, 3.56, 0.82, col=AC_EMERALD)
+
+    # ---- Right Zoom-in Sub-Panels (b), (c), (d) ----
+    rx, rw = 4.98, 2.34
+
+    # (b) Huber Clipping & Slope-Bounded Lattice
+    rbox(rx, 2.94, rw, 1.34, fc=C_SAGE_BG, ec=C_SAGE_EC, lw=1.0, ls='--', r=0.08, zorder=1.5)
+    ax.text(rx + rw/2, 2.83, '(b) Huber Clipping & Slope-Bounded Lattice', ha='center', va='center',
+            fontsize=6.9, fontweight='bold', color=INK)
+    rbox(rx + 0.08, 3.04, 1.04, 1.14, fc='#FFFFFF', ec='#C4D8C4', lw=0.75, r=0.05, zorder=2.5)
+    iax_hb = ax.inset_axes([rx + 0.16, 3.22, 0.88, 0.72], transform=ax.transData, zorder=4)
+    ee = np.linspace(-2.5, 2.5, 120)
+    l2_y = 0.5 * ee**2
+    hb_y = np.where(np.abs(ee) <= 1.0, 0.5 * ee**2, np.abs(ee) - 0.5)
+    iax_hb.plot(ee, l2_y, ls='--', lw=1.0, color=AC_CRIMSON, label=r'$L_2$')
+    iax_hb.plot(ee, hb_y, lw=1.25, color=AC_BLUE, label='Huber')
+    iax_hb.axvline(-1.0, color='#99A', ls=':', lw=0.6); iax_hb.axvline(1.0, color='#99A', ls=':', lw=0.6)
+    iax_hb.set_ylim(0, 3.2); iax_hb.set_xticks([-1, 1]); iax_hb.set_xticklabels([r'$-\delta$', r'$+\delta$'], fontsize=5.0)
+    iax_hb.set_yticks([]); iax_hb.legend(loc='upper center', fontsize=4.8, handlelength=1.1, borderpad=0.1, labelspacing=0.1)
+    for sp in ['top', 'right']: iax_hb.spines[sp].set_visible(False)
+    ax.text(rx + 0.60, 4.08, r'Edge Penalty $\rho_\delta(\varepsilon)$', ha='center', va='center', fontsize=5.7, fontweight='bold', color=INK, zorder=4)
+
+    rbox(rx + 1.18, 3.04, 1.08, 1.14, fc='#FFFFFF', ec='#C4D8C4', lw=0.75, r=0.05, zorder=2.5)
+    ax.text(rx + 1.72, 4.08, 'Knot Lattice ($h=20$)', ha='center', va='center', fontsize=5.7, fontweight='bold', color=INK, zorder=4)
+    cols_x = [rx + 1.32, rx + 1.72, rx + 2.12]
+    rows_y = [3.22, 3.44, 3.66, 3.88]
+    for c_i in range(2):
+        for r1 in range(4):
+            for r2 in range(4):
+                if abs(r1 - r2) <= 1:
+                    ax.plot([cols_x[c_i], cols_x[c_i+1]], [rows_y[r1], rows_y[r2]], color='#CBD5DE', lw=0.65, zorder=3)
+    opt_r = [1, 2, 2]
+    ax.plot(cols_x, [rows_y[r] for r in opt_r], color=AC_BLUE, lw=1.6, zorder=4.5)
+    for c_i, cx in enumerate(cols_x):
+        for r_i, ry in enumerate(rows_y):
+            sel = (opt_r[c_i] == r_i)
+            ax.scatter([cx], [ry], s=18 if sel else 10, color=AC_EMERALD if sel else '#98A8B8', zorder=5)
+    ax.text(rx + 1.72, 3.11, r'Slope $\in[0.8, 1.2]$', ha='center', va='center', fontsize=5.3, color=MUTED, zorder=4)
+
+    # (c) Conditional Excess-Cost Profile Q_k(v)
+    rbox(rx, 1.56, rw, 1.16, fc=C_SLATE_BG, ec=C_LAV_EC, lw=1.0, ls='--', r=0.08, zorder=1.5)
+    ax.text(rx + rw/2, 1.45, r'(c) Conditional Excess-Cost Profile $Q_k(v)$', ha='center', va='center',
+            fontsize=6.9, fontweight='bold', color=INK)
+    rbox(rx + 0.08, 1.64, rw - 0.16, 1.00, fc='#FFFFFF', ec='#D2CCE6', lw=0.75, r=0.05, zorder=2.5)
+    ax.text(rx + rw/2, 2.53, r'$\Delta Q_k(v)=\min_m(F_k+B_k)-J^*$', ha='center', va='center', fontsize=5.65, fontweight='bold', color=INK, zorder=4)
+    iax_q = ax.inset_axes([rx + 0.25, 1.79, rw - 0.44, 0.59], transform=ax.transData, zorder=4)
+    vq = np.linspace(-3.0, 3.0, 120)
+    q_sharp = 0.015 * (vq + 0.35)**2
+    q_broad = 0.003 * (vq - 0.20)**2
+    iax_q.axhspan(0, 0.005, color='#F8E8A4', alpha=0.65, label=r'$\Delta Q \leq 0.005$')
+    iax_q.plot(vq, q_sharp, color=AC_BLUE, lw=1.25, label='Tight basin')
+    iax_q.plot(vq, q_broad, color=AC_PEACH, lw=1.1, ls='--', label='Broad basin')
+    iax_q.set_ylim(-0.001, 0.032); iax_q.set_xlim(-3.0, 3.0)
+    iax_q.set_xlabel(r'Midpoint shift $d_{\mathrm{mid}}$ (m)', fontsize=5.0, labelpad=1)
+    iax_q.set_yticks([0.0, 0.02]); iax_q.tick_params(labelsize=4.8, pad=1)
+    iax_q.legend(loc='upper right', fontsize=4.6, handlelength=1.1, borderpad=0.1, labelspacing=0.1)
+    for sp in ['top', 'right']: iax_q.spines[sp].set_visible(False)
+
+    # (d) Empirical Two-Way Reciprocity Check
+    rbox(rx, 0.24, rw, 1.08, fc='#FDF4EC', ec='#CE8A54', lw=1.0, ls='--', r=0.08, zorder=1.5)
+    ax.text(rx + rw/2, 0.08, '(d) Empirical Two-Way Reciprocity Check', ha='center', va='center',
+            fontsize=6.9, fontweight='bold', color=INK)
+    rbox(rx + 0.08, 0.80, rw - 0.16, 0.43, fc='#FFFFFF', ec='#E4BFA0', lw=0.75, r=0.04, zorder=2.5)
+    ax.text(rx + rw/2, 1.09, r'Forward pass:  $x \rightarrow y \;\Rightarrow\; a_{\mathrm{fwd}}$', ha='center', va='center', fontsize=5.75, fontweight='bold', color=AC_BLUE, zorder=4)
+    ax.text(rx + rw/2, 0.90, r'Reverse pass:  $y \rightarrow x \;\Rightarrow\; a_{\mathrm{rev}}$', ha='center', va='center', fontsize=5.75, fontweight='bold', color=AC_PEACH, zorder=4)
+
+    rbox(rx + 0.08, 0.32, 1.04, 0.41, fc='#E9F7EF', ec=AC_EMERALD, lw=0.8, r=0.04, zorder=2.5)
+    ax.text(rx + 0.60, 0.58, r'$a_{\mathrm{fwd}} \neq a_{\mathrm{rev}}$ (or $1.0$)', ha='center', va='center', fontsize=5.25, fontweight='bold', color='#0B6E4A', zorder=4)
+    ax.text(rx + 0.60, 0.41, 'Keep NARA Warp', ha='center', va='center', fontsize=5.4, color=INK, zorder=4)
+
+    rbox(rx + 1.20, 0.32, 1.06, 0.41, fc='#FDEDEC', ec=AC_CRIMSON, lw=0.8, r=0.04, zorder=2.5)
+    ax.text(rx + 1.73, 0.58, r'$a_{\mathrm{fwd}}=a_{\mathrm{rev}}\in\{0.8,1.2\}$', ha='center', va='center', fontsize=5.1, fontweight='bold', color=AC_CRIMSON, zorder=4)
+    ax.text(rx + 1.73, 0.41, 'Fallback XCORR', ha='center', va='center', fontsize=5.4, color=INK, zorder=4)
 
     save_pub(fig, 'figure_2')
 
